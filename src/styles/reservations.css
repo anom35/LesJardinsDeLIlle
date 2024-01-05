@@ -1,0 +1,28 @@
+.reservations {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.reservations article {
+    max-width: 500px;
+    text-align: justify;
+    margin: 0 auto 50px;
+
+}
+.reservations h1 {
+    margin: 50px auto 50px;
+}
+
+.reservations a {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+
+
+@media (max-width: 550px) {
+    .reservations article {
+        max-width: 300px;
+    }    
+}
