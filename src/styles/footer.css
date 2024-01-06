@@ -1,4 +1,33 @@
-.footer {
+footer {
+    display: flex;
     background-color: var(--bg-footer);
-    height: 50px;
+    height: 150px;
 }
+
+figure {
+    border: 2px solid red;
+    padding: 10px;
+    width: 150px;
+}
+
+figcaption {
+    font-size: 0.7rem;
+    color: lightgray;
+}
+
+footer img {
+    width: 100px;
+}
+
+footer article {
+    border: 2px solid green;
+    color: var(--gris-clair);
+    font-size: 0.9rem;
+    padding: 10px;
+}
+
+footer article a {
+    color: var(--btn-color);
+    font-size: 1.2rem;
+}
+

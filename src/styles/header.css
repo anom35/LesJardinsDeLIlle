@@ -26,11 +26,22 @@
     width: 100%;
 }
 
+.menu-header ul li {
+    padding: 0 10px;
+    border-bottom: 1px solid transparent;
+}
+
 .menu-header ul li a {
-    margin: 0 10px;
     font-size: 1.2rem;
     color: var(--color-menu);
 }
+
+
+.menu-header ul li:hover {
+    border-bottom: 1px solid cyan;
+}
+
+
 
 
 @media (max-width: 740px) { 
