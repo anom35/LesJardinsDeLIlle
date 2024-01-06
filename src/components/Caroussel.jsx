@@ -1,34 +1,33 @@
-import {Link, NavLink} from "react-router-dom"
-import logo from '../Assets/logo.png'
-import '../Styles/Navbar.css'
+import React, { useState, useEffect } from 'react';
+import image1 from "../assets/images/image1_small.jpg";
+import image2 from "../assets/images/image2_small.jpg";
+import image3 from "../assets/images/image3_small.jpg";
+import "../styles/carousel.css";
 
+export default function Carousel() {
+    const [index, setIndex] = useState(1);
 
-export default function Navbar() {
-    const isActiveStyle = { textDecoration: "underline" };
+    useEffect(() => {
+        const interval = setInterval(() => {
+        setIndex((prevIndex) => (prevIndex % 3) + 1);
+        }, 5000);
 
-    // Utilisation d'un tableau en prévision d'ajout au menu
-    const menuItems = [
-        { to: "/", label: "Accueil" },
-        { to: "/about", label: "A Propos" },
-        { to: "/aboute", label: "Contact" },
-    ];
+        return () => clearInterval(interval);
+    }, []);
 
-    const menuItem = ({ to, label }) => (
-        <li key={to}>
-            <NavLink to={to} style={({ isActive }) => isActive ? isActiveStyle : undefined }>
-                {label}
-            </NavLink>
-        </li>
-    );
+    let imageToShow;
+
+    if (index === 1) {
+        imageToShow = <img src={image1} alt="Des parcelles bien entretenues" key="car-1" />;
+    } else if (index === 2) {
+        imageToShow = <img src={image2} alt="De jolies parcelles" key="car-2" />;
+    } else if (index === 3) {
+        imageToShow = <img src={image3} alt="Du paillaige de parcelles" key="car-3" />;
+    }
 
     return (
-        <div className='navbar'>
-            <Link to="/">
-                <img src={logo} alt='Logo du site Kasa' />
-            </Link>
-            <nav>
-                <ul>{menuItems.map(menuItem)}</ul>
-            </nav>
+        <div className='carousel'>
+            {imageToShow}
         </div>
     );
 }
