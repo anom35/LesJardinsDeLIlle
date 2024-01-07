@@ -6,6 +6,8 @@ import Shaping from "../layout/Shaping"
 import Presentation from "../components/Presentation"
 import Information from "../components/Information"
 import Histoire from "../components/Histoire"
+import Fonctionnement from "../components/Fonctionnement"
+import InfoParcelle from "../components/InfoParcelle"
 
 export default function Home() {
     return (
@@ -16,6 +18,8 @@ export default function Home() {
                 <Carousel />
                 <Presentation />
                 <Histoire />
+                <Fonctionnement />
+                <InfoParcelle />
             </Shaping>
             <Footer />
         </div>

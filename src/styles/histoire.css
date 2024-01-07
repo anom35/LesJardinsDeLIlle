@@ -1,0 +1,20 @@
+.histoire-container {
+    display: flex;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.histoire {
+    display: flex;
+    text-align: justify;
+}
+
+.histoire-article {
+    width: 320px;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.histoire-article h2 {
+    color: var(--btn-color);
+}
