@@ -1,0 +1,7 @@
+.information {
+    background-color: var(--bg-info);
+    padding: 20px 30px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px gray;
+}

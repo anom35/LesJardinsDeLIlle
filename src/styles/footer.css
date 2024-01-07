@@ -4,30 +4,85 @@ footer {
     height: 150px;
 }
 
-figure {
-    border: 2px solid red;
-    padding: 10px;
-    width: 150px;
+footer figure {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    width: 300px;
 }
 
-figcaption {
-    font-size: 0.7rem;
+footer figure img {
+    margin-inline: auto;
+}
+
+footer figure figcaption {
+    font-size: 0.8rem;
     color: lightgray;
-}
-
-footer img {
-    width: 100px;
+    padding-top: 10px;
+    text-align: justify;
 }
 
 footer article {
-    border: 2px solid green;
+    width: 100%;
     color: var(--gris-clair);
-    font-size: 0.9rem;
-    padding: 10px;
+    padding: 20px;
 }
 
-footer article a {
+footer article img {
+    width: 32px;
+}
+
+footer article strong {
+    font-size: 1.1rem;
+}
+
+.mail {
+    display: flex;
+    align-items: center;
+}
+
+footer article span {
     color: var(--btn-color);
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
+footer figure hr {
+    border-color: rgb(88, 87, 87);
+}
+
+.developpeur {
+    display: flex;
+    justify-content: right;
+    font-size: 0.7rem;
+    color: beige;
+}
+
+
+@media (max-width: 500px) {
+    .footer {
+        flex-direction: column;
+        height: 220px;
+    }
+
+    footer figure {
+        width: 100%;
+    }
+
+    footer figure figcaption,
+    footer article p {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 365px) {
+    footer figure {
+        padding: 20px 10px;
+        width: 100%;
+    }
+
+    footer article {
+        padding: 20px 0px;
+    }
+}

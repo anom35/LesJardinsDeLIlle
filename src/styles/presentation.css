@@ -1,0 +1,29 @@
+.presentation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+    background-color: var(--bg-section);
+    padding-bottom: 50px;
+}
+
+.jardins-familiaux {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.jardins-familiaux article {
+    background-color: var(--bg-article);
+    padding: 20px;
+    text-align: justify;
+    width: 630px;
+    margin-inline: auto;
+}
+
+.jardins-familiaux img {
+    height: 354px;
+    width: 630px;
+    margin-inline: auto;
+}
+

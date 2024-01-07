@@ -9,13 +9,14 @@ export default function Footer() {
                 <figure>
                     <img src={logo} alt="Logo de la ville de Betton 35830" />
                     <figcaption>
-                        <strong>Les jardins familiaux</strong> de la ville de <strong>Betton</strong>
+                        <strong>Les jardins familiaux</strong>&nbsp;de la ville de <strong>Betton</strong>
                     </figcaption>
                 </figure>
+                <hr />
                 <article>
                     <p><strong>Contactez-nous</strong></p>
-                    <p><a href="mailto:lesjardinsdelille@gmail.com">&#9993; email</a></p>
-                 </article>
+                    <p className='mail'><span>&#9993;&nbsp;</span> lesjardinsdelille@gmail.com</p>
+                </article>
             </footer>
         </>
     )

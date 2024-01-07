@@ -6,6 +6,11 @@
     --btn-color: #337AB7;
     --bg-footer: #232323;
     --gris-clair: #CCCCC7;
+    --bg-titre: rgb(184, 237, 184);
+    --bg-article: rgb(246, 223, 181);
+    --bg-section: rgba(5, 191, 247, 0.092);
+    --bg-info: rgba(247, 0, 255, 0.222);
+
     --font-titre-header: "Pacifico";
 }
 
@@ -36,4 +41,13 @@ ul, li {
 .btn:hover {
     cursor: pointer;
     background-color: var(--bg-header);
+}
+
+.bg-titre {
+    margin: 40px auto;
+    background-color: var(--bg-titre);
+    padding: 30px;
+    border-radius: 5px 100px;
+    box-shadow: 0 0 50px gray;
+    border: 2px solid white;
 }

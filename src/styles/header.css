@@ -17,6 +17,7 @@
     font-family: var(--font-titre-header);
     font-size: 2.5rem;
     letter-spacing: 6px;
+    text-shadow: 0 0 30px rgb(182, 182, 128);
 }
 
 .menu-header ul {
@@ -28,7 +29,7 @@
 
 .menu-header ul li {
     padding: 0 10px;
-    border-bottom: 1px solid transparent;
+    border-bottom: 2px solid transparent;
 }
 
 .menu-header ul li a {
@@ -38,7 +39,7 @@
 
 
 .menu-header ul li:hover {
-    border-bottom: 1px solid cyan;
+    border-bottom: 2px solid cyan;
 }
 
 

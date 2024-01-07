@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Reservations from "../pages/Reservations"
 import "../styles/header.css"
 import logo from "../assets/images/logo_betton.png"
 
