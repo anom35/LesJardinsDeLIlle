@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Reservations from '../pages/Reservations';
+import ErrorPage from "../pages/Error404"
 import Home from "../pages/Home"
 
 function RedirectComponent() {
@@ -17,10 +18,10 @@ function RedirectComponent() {
 export default function Routes() {
 
     const router = createBrowserRouter([
-        { path:"/", element:<Home /> },
-        { path: "/reservations", element: <Reservations />, errorElement:<Home /> },
-        { path: "/betton", element: <RedirectComponent />, errorElement: <Home /> },
-        { path: "*", element: <Home /> }
+        { path:"/", element:<Home />, errorElement:<ErrorPage /> },
+        { path: "/reservations", element: <Reservations />, errorElement:<ErrorPage /> },
+        { path: "/betton", element: <RedirectComponent />, errorElement: <ErrorPage /> },
+        { path: "*", element: <ErrorPage /> }
     ]);
 
     ReactDOM.createRoot(document.getElementById("root")).render(

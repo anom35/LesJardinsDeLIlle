@@ -1,0 +1,19 @@
+.error404 {
+    display: flex;
+    min-height: calc(100vh - 287px);
+    background: rgba(16, 14, 14, 0.226) url("../assets/images/fond_erreur.webp");
+    /* align-items: center; */
+    /* justify-content: center; */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+
+
+@media (max-width: 740px) {
+    .error404 {
+        min-height: calc(100vh - 358px);
+    }
+}
