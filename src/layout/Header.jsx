@@ -7,7 +7,7 @@ export default function Header() {
     return (
         <div className='header'>
             <div className='header-top'>
-                <div>
+                <div className='header-top-image'>
                     <Link to="/betton">
                         <img src={logo} alt="Logo de la ville de Betton" />
                     </Link>
