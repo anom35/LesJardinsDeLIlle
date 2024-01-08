@@ -6,7 +6,6 @@ export default function Presentation() {
 
     return (
         <div className='presentation'>
-
             <div className="jardins-familiaux">
                 <h2 className='bg-titre'>Les jardins familiaux</h2>
                 <img src={image1} alt="Vue d'ensemble de jardins potagés" />

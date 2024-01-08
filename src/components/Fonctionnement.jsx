@@ -20,7 +20,7 @@ export default function Fonctionnement() {
                         </p>
                     </article>
                 </div>
-                <div>
+                <div className='fonctionnement-image'>
                     <img src={image1} alt="Le fonctionnement de l'association" />
                 </div>
             </div>

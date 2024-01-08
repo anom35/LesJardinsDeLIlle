@@ -1,9 +1,58 @@
 .info-parcelle {
     display: flex;
-
+    justify-content: center;
+    margin: 50px auto;
 }
 
 .info-parcelle article {
     display: flex;
-    
+    max-width: 320px;
+    min-width: 250px;
+    text-align: justify;
+    padding: 20px;
+}
+
+.info-image h2 {
+    color: var(--btn-color);
+    padding-bottom: 10px;
+}
+.info-image {
+    min-width: 300px;
+    margin-left: 20px;
+}
+
+.zero-pesticides {
+    display: flex;
+    margin: auto 30px;
+}
+.zero-pesticides img {
+    height: 300px;
+}
+
+.info-article {
+    display: flex;
+}
+
+
+@media (max-width: 900px) {
+    .zero-pesticides {
+        display: none;
+    }
+    .info-parcelle article {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .info-parcelle {
+        flex-direction: column;
+    }
+    .info-image {
+        display: flex;
+        flex-direction: column;
+        margin-inline: auto;
+    }
+    .info-image img {
+        max-width: 300px;
+    }
 }

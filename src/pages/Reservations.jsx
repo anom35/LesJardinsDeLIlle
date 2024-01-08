@@ -8,7 +8,7 @@ export default function Reservations() {
         <>
             <Header />
             <div className='reservations'>
-                <h1>Les reservations</h1>
+                <h1>Les réservations</h1>
                 <article>
                     <p>Pour <strong>bénéficier d’un jardin familial</strong>, 
                         il faut en faire la demande en <strong>completant et retournant le formulaire ci-dessous</strong>

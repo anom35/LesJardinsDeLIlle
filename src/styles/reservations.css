@@ -15,7 +15,8 @@
 }
 
 .reservations a {
-    max-width: 300px;
+    max-width: 320px;
+    font-size: 0.9rem;
     margin: 0 auto;
 }
 

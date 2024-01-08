@@ -1,6 +1,7 @@
 .fonctionnement-container {
     display: flex;
-    padding: 50px;
+    justify-content: center;
+    padding: 50px 20px;
     background-color: var(--bg-section);
 }
 
@@ -10,11 +11,30 @@
 }
 
 .fonctionnement-article {
-    width: 320px;
+    max-width: 500px;
     padding: 10px;
     margin-right: 10px;
 }
 
 .fonctionnement-article h2 {
     color: var(--btn-color);
+    padding-bottom: 10px;
+}
+
+.fonctionnement-image img {
+    min-width: 400px;
+    width: 100%;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .fonctionnement {
+        display: block;
+    }
+    .fonctionnement-image img {
+        min-width: 300px;
+        width: 100%;
+    }
 }

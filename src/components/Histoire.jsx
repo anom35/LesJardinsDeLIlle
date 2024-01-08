@@ -1,5 +1,6 @@
 import React from 'react'
 import image1 from "../assets/images/histoire.webp"
+import sansPesticides from "../assets/images/zero_pesticides.jpg"
 import "../styles/histoire.css"
 
 export default function Histoire() {
@@ -7,7 +8,7 @@ export default function Histoire() {
     return (
         <div className='histoire-container'>
             <div className="histoire">
-                <div>
+                <div className='histoire-image'>
                     <img src={image1} alt="Histoire des jardins de l'Ille" />
                 </div>
                 <div className='histoire-article'>
@@ -24,6 +25,9 @@ export default function Histoire() {
                             &nbsp;tout en cultivant la <strong>sensibilité écologique</strong> des autres.
                         </p>
                     </article>
+                    <div className="zero-pesticide">
+                        <img src={sansPesticides} alt="indique que les pesticides sont interdit" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -59,10 +59,10 @@ footer figure hr {
 }
 
 
-@media (max-width: 500px) {
-    .footer {
+@media (max-width: 560px) {
+    footer {
         flex-direction: column;
-        height: 220px;
+        height: 260px;
     }
 
     footer figure {
@@ -76,7 +76,7 @@ footer figure hr {
     }
 }
 
-@media (max-width: 365px) {
+@media (max-width: 340px) {
     footer figure {
         padding: 20px 10px;
         width: 100%;
