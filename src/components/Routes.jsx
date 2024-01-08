@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Reservations from '../pages/Reservations';
 import Home from "../pages/Home"
-import ErrorPage from "../pages/Error404"
 
 function RedirectComponent() {
 
@@ -18,10 +17,10 @@ function RedirectComponent() {
 export default function Routes() {
 
     const router = createBrowserRouter([
-        { path:"/", element:<Home />, errorElement:<ErrorPage /> },
-        { path: "/reservations", element: <Reservations />, errorElement:<ErrorPage /> },
-        { path: "/betton", element: <RedirectComponent />, errorElement: <ErrorPage /> },
-        { path: "*", element: <ErrorPage /> }
+        { path:"/", element:<Home /> },
+        { path: "/reservations", element: <Reservations />, errorElement:<Home /> },
+        { path: "/betton", element: <RedirectComponent />, errorElement: <Home /> },
+        { path: "*", element: <Home /> }
     ]);
 
     ReactDOM.createRoot(document.getElementById("root")).render(
