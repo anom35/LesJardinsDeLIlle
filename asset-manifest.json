@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.05fc2814.css",
+    "main.js": "/static/js/main.c77c2459.js",
+    "static/media/image1_small.jpg": "/static/media/image1_small.8ffe955b47393bc4a5fb.jpg",
+    "static/media/image2_small.jpg": "/static/media/image2_small.fbe5a4fceb14520aae3f.jpg",
+    "static/media/image3_small.jpg": "/static/media/image3_small.63f92f55d330225c43f5.jpg",
+    "static/media/histoire.webp": "/static/media/histoire.c6a9f97066ee13911218.webp",
+    "static/media/image0.jpg": "/static/media/image0.ca5c46b8b3747580d2ec.jpg",
+    "static/media/fonctionnement.webp": "/static/media/fonctionnement.f87f676e48b16ddddded.webp",
+    "static/media/zero_pesticides2.jpg": "/static/media/zero_pesticides2.3e3d49cffa0581e38723.jpg",
+    "static/media/zero_pesticides.jpg": "/static/media/zero_pesticides.2b6a1e2148ff1b2afa57.jpg",
+    "static/media/une_parcelle_est.webp": "/static/media/une_parcelle_est.4b88ca97a4ac30fa2786.webp",
+    "index.html": "/index.html",
+    "main.05fc2814.css.map": "/static/css/main.05fc2814.css.map",
+    "main.c77c2459.js.map": "/static/js/main.c77c2459.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.05fc2814.css",
+    "static/js/main.c77c2459.js"
+  ]
+}

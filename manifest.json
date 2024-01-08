@@ -1,0 +1,15 @@
+{
+  "short_name": "Les Jardins de l'Ille",
+  "name": "Les Jardins de l'Ille",
+  "icons": [
+    {
+      "src": "logo_betton.png",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
