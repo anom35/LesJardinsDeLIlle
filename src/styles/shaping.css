@@ -3,3 +3,11 @@
     flex-direction: column;
     min-height: calc(100vh - 150px);
 }
+
+
+
+@media (max-width: 560px) {
+    .shaping {
+        min-height: calc(100vh - 262px);
+    }
+}

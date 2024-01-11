@@ -62,7 +62,7 @@ footer figure hr {
 @media (max-width: 560px) {
     footer {
         flex-direction: column;
-        height: 260px;
+        height: 262px;
     }
 
     footer figure {
