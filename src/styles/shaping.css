@@ -1,13 +1,13 @@
 .shaping {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 150px);
+    min-height: calc(100vh - 120px);
 }
 
 
 
 @media (max-width: 560px) {
     .shaping {
-        min-height: calc(100vh - 262px);
+        min-height: calc(100vh - 182px);
     }
 }

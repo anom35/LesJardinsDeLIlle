@@ -22,7 +22,7 @@ export default function Header() {
                         <Link to="/">Accueil</Link>
                     </li>
                     <li>
-                        <Link to="/about">Jardins</Link>
+                        <Link to="/jardins">Jardins</Link>
                     </li>
                     <li>
                         <Link to="/reservations">Reservations</Link>

@@ -6,9 +6,11 @@
     --btn-color: #337AB7;
     --bg-footer: #232323;
     --gris-clair: #CCCCC7;
-    --bg-titre: rgb(184, 237, 184);
-    --bg-article: rgb(246, 223, 181);
+    --gris-tres-clair: #e6e6e2;
+    --bg-titre: rgb(219, 239, 219);
+    --bg-article: rgb(248, 236, 214);
     --bg-section: rgba(5, 191, 247, 0.092);
+    --shadow: rgba(0, 255, 255, 0.378);
     --bg-info: rgba(247, 0, 255, 0.222);
 
     --font-titre-header: "Pacifico";
@@ -51,4 +53,23 @@ ul, li {
     border-radius: 30px 100px 30px;
     box-shadow: 0 0 10px gray;
     border: 2px solid white;
+}
+
+.f {
+    display: flex;
+}
+.fc {
+    display: flex;
+    /* justify-content: center; */
+}
+.fdc {
+    flex-direction: column;
+}
+.jca {
+    justify-content: space-around;
+}
+
+
+.aic {
+    align-items: center;
 }

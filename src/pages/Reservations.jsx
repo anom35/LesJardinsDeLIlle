@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from "../layout/Header"
 import Shaping from '../layout/Shaping'
-import Footer from "../components/Footer"
+import Footer from "../layout/Footer"
 import "../styles/reservations.css"
 
 export default function Reservations() {

@@ -1,7 +1,7 @@
 footer {
     display: flex;
     background-color: var(--bg-footer);
-    height: 150px;
+    height: 120px;
 }
 
 footer figure {
@@ -14,6 +14,7 @@ footer figure {
 
 footer figure img {
     margin-inline: auto;
+    height: 50px;
 }
 
 footer figure figcaption {
@@ -27,6 +28,7 @@ footer article {
     width: 100%;
     color: var(--gris-clair);
     padding: 20px;
+    margin: auto 0;
 }
 
 footer article img {
@@ -62,10 +64,11 @@ footer figure hr {
 @media (max-width: 560px) {
     footer {
         flex-direction: column;
-        height: 262px;
+        height: 182px;
     }
 
     footer figure {
+        padding: 10px;
         width: 100%;
     }
 
@@ -74,15 +77,8 @@ footer figure hr {
         display: flex;
         justify-content: center;
     }
-}
-
-@media (max-width: 340px) {
-    footer figure {
-        padding: 20px 10px;
-        width: 100%;
-    }
-
     footer article {
-        padding: 20px 0px;
+        padding: 10px;
+        margin: 0;
     }
 }

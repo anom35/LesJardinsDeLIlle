@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from "../layout/Header"
-import Footer from "../components/Footer"
+import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
 import fond from "../assets/images/fond_erreur.webp"
 import "../styles/error404.css"
