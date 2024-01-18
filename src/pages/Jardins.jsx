@@ -19,7 +19,7 @@ export default function Jardins() {
                 <div className="jardins fc">
                     <h1>Les jardins familiaux</h1>
                     <h2>deux sites existent </h2>
-                    <p className='liste-jardins'>La <strong>Piconnerie</strong> et la <strong>Renaudais</strong></p>
+                    <p className='liste-jardins'>La <strong>Piconnerie</strong> et la <strong>Chaperonnerais</strong></p>
                     <div className="carte-jardins f jca">
                         <div className="piconnerie fc fdc aic">
                             <h3>La Piconnerie</h3>

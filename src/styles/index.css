@@ -60,7 +60,7 @@ ul, li {
 }
 .fc {
     display: flex;
-    /* justify-content: center; */
+    justify-content: center;
 }
 .fdc {
     flex-direction: column;

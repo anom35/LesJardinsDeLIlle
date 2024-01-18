@@ -1,0 +1,31 @@
+.admin-container {
+    margin: 10px 0 20px;   
+}
+
+.create-user {
+    border: 1px solid var(--bg-footer);
+    padding: 20px;
+    max-width: 320px;
+    background-color: var(--shadow);
+}
+
+.create-user label,
+.create-user input,
+.create-user fieldset,
+.create-user select {
+    font-size: 1rem;
+
+}
+
+.create-user button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.ajout-jardinier {
+    min-width: 300px;
+}
+
+.choix-jardin {
+    margin: 20px auto;
+}

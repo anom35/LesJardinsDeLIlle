@@ -42,7 +42,14 @@
     border-bottom: 2px solid cyan;
 }
 
+.user_image {
+    border: 1px solid white;
+    border-radius: 50%;
+}
 
+.user_image:hover {
+    cursor: pointer;
+}
 
 
 @media (max-width: 740px) { 
@@ -60,4 +67,7 @@
         display: flex;
         justify-content: center;
     }
+    .menu-header ul li a {
+        font-size: 1rem;
+    } 
 }
