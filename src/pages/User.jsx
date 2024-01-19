@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import "../styles/user.css"
 
-export default function AuthModal({ show, handleClose }) {
+export default function AuthModal({ show, isLoggedIn, setIsLoggedIn }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -34,10 +34,18 @@ export default function AuthModal({ show, handleClose }) {
         }
     };
 
+    const goToUserPage = () => {
+        navigate('/administration');
+    };
+
+    const closeUserModal = () => {
+        navigate('/');
+    }
+
     return (
         <div className={`auth-modal ${show ? 'show' : ''}`}>
             <div className="modal-content">
-                <span className="close" onClick={handleClose}>&times;</span>
+                <span className="close" onClick={closeUserModal}>&times;</span>
                 <h2 className='fc'>Connexion</h2>
                 {error && <div className="error">{error}</div>}
                 <label>Email</label>
@@ -60,7 +68,7 @@ export default function AuthModal({ show, handleClose }) {
                     <>
                         <div className="connexion-reussi">
                             <p>Connexion réussie !</p>
-                            <Link className='btn' to="/administration">Aller à l'Administration</Link>
+                            <button className='btn' onClick={goToUserPage}>Aller à l'Administration</button>
                         </div>
                     </>
                 )}

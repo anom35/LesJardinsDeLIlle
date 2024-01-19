@@ -9,34 +9,51 @@ export default function Administration() {
 
     const today = new Date().toISOString().split('T')[0];
     
-    const [tableUsers, setTableUsers] = useState([])
+    const [Error, setError] = useState("");
+    const [tableUsers, setTableUsers] = useState([]);
     const [selectedDate, setSelectedDate] = useState(today);
     const [selectedJardin, setSelectedJardin] = useState("Chaponerais");
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [adresse, setAdresse] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [email, setEmail] = useState("");
+    const [motDePasse, setMotDePasse] = useState("");
+    const [caution, setCaution] = useState("");
+    const [typePaiement, setTypePaiement] = useState("");
 
-    // const handleLogin = async () => {
-    //     try {
-    //         const response = await fetch('http://localhost:3513/get-all-users', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             // body: JSON.stringify({
-    //             //     email: email,
-    //             //     password: password
-    //             // })
-    //         });
+    const createAdherant = async () => {
+        try {
+            const response = await fetch('http://localhost:3513/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date_inscription: selectedDate,
+                    nom: nom,
+                    prenom: prenom,
+                    adresse: adresse,
+                    telephone: telephone,
+                    email: email,
+                    password: motDePasse,
+                    jardin: selectedJardin,
+                    caution: caution,
+                    type_paiement: typePaiement,
+                })
+            });
 
-    //         if (!response.ok) {
-    //             throw new Error(`Erreur HTTP ${response.status}`);
-    //         }
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP ${response.status}`);
+            }
 
-    //         setTableUsers(await response.json());
-    //         console.log(tableUsers);
+            setTableUsers(await response.json());
+            console.log(tableUsers);
 
-    //     } catch (error) {
-    //         // setError("Erreur lors de la ");
-    //     }
-    // };
+        } catch (error) {
+            setError("Erreur lors de la création d'une fiche adhérent");
+        }
+    };
 
     return (
         <div>
@@ -54,30 +71,30 @@ export default function Administration() {
                                 onChange={(e) => setSelectedDate(e.target.value)}
                             />
                             <label>Nom</label>
-                            <input type="text" placeholder="Nom" />
+                            <input type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)}/>
                             <label>Prénom</label>
-                            <input type="text" placeholder="Prénom" />
+                            <input type="text" placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
                             <label>Adresse</label>
-                            <input type="text" placeholder="Adresse" />
+                            <input type="text" placeholder="Adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)}/>
                             <label>Téléphone</label>
-                            <input type="text" placeholder="Téléphone" />
+                            <input type="text" placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
                             <label>Email</label>
-                            <input type="text" placeholder="Email" />
+                            <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <label>Mot de passe</label>
-                            <input type="password" placeholder="<PASSWORD>" />
+                            <input type="password" placeholder="<PASSWORD>"  value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
                             <label className='choix-jardin'>Jardin :&nbsp;
                                 <select value={selectedJardin} onChange={(e) => setSelectedJardin(e.target.value)}>
-                                    <option value="Chaponerais">Chaponerais</option>
+                                    <option value="Chaponerais">Chaperonnerais</option>
                                     <option value="Piconnerie">Piconnerie</option>
                                 </select>
                             </label>
                             <label>Caution</label>
-                            <input type="text" placeholder="Caution" />
+                            <input type="text" placeholder="25€" value={caution} onChange={(e) => setCaution(e.target.value)} />
                             <label>Type de paiement</label>
-                            <input type="text" placeholder="Type de paiement" />
+                            <input type="text" placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)}/>
 
 
-                            <button type="submit">Créer adhérent</button>
+                            <button type="button" onClick={createAdherant}>Créer adhérent</button>
                         </form>
                     </div>
                 </div>

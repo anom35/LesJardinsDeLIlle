@@ -1,5 +1,14 @@
-import routes from "./components/Routes"
-import "./styles/index.css"
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Routes from './components/MyRoutes';
+import './styles/index.css';
 
-// charge les routes pour les différentes pages, ainsi que la page d'erreur
-routes();
+ 
+const root = document.getElementById('root');
+
+ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+        <Routes />
+    </React.StrictMode>
+);
+

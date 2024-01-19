@@ -1,20 +1,15 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import User from "../pages/User"
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import "../styles/header.css"
 import logo from "../assets/images/logo_betton.png"
 import user_image from "../assets/images/user.webp"
 
 export default function Header() {
 
-    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
-    const openModal = () => {
-      setShowModal(true);
-    };
-  
-    const closeModal = () => {
-      setShowModal(false);
+    const goToUserPage = () => {
+        navigate('/user');
     };
 
     return (
@@ -45,9 +40,8 @@ export default function Header() {
                             className="user_image" 
                             src={user_image} 
                             alt="connexion utilisateur pour les admins du site web" 
-                            onClick={openModal}
+                            onClick={goToUserPage}
                         />
-                        <User show={showModal} handleClose={closeModal} />
                     </div>
                 </ul>
             </div>

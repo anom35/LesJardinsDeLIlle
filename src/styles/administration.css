@@ -2,19 +2,36 @@
     margin: 10px 0 20px;   
 }
 
+.admin-container h2 {
+    background-color: var(--bg-footer);
+    color: cyan;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
 .create-user {
     border: 1px solid var(--bg-footer);
-    padding: 20px;
+    padding: 10px;
     max-width: 320px;
-    background-color: var(--shadow);
+    background-color: var(--bg-create-user);
+    color: var(--gris-tres-clair);
 }
 
 .create-user label,
 .create-user input,
 .create-user fieldset,
 .create-user select {
-    font-size: 1rem;
+    font-size: 0.9rem;
 
+}
+
+.create-user input {
+    padding: 3px;
+}
+
+.create-user label {
+    margin-bottom: 3px;
 }
 
 .create-user button {
@@ -27,5 +44,9 @@
 }
 
 .choix-jardin {
-    margin: 20px auto;
+    margin: 5px 0!important;
+}
+
+.choix-jardin select {
+   padding: 5px 0;
 }
