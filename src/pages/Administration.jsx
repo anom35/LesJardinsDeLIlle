@@ -21,6 +21,9 @@ export default function Administration() {
     const [motDePasse, setMotDePasse] = useState("");
     const [caution, setCaution] = useState("");
     const [typePaiement, setTypePaiement] = useState("");
+    const [parcelle, setParcelle] = useState("");
+    const [fin_inscription, setFin_inscription] = useState("");
+    const [caution_rendu, setCaaution_rendu] = useState("");
 
     const createAdherant = async () => {
         try {
@@ -30,16 +33,19 @@ export default function Administration() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    date_inscription: selectedDate,
+                    password: motDePasse,
+                    email: email,
                     nom: nom,
                     prenom: prenom,
+                    date_inscription: selectedDate,
+                    jardin: selectedJardin,
+                    parcelle, parcelle, // a faire
                     adresse: adresse,
                     telephone: telephone,
-                    email: email,
-                    password: motDePasse,
-                    jardin: selectedJardin,
+                    fin_inscription: selectedFin, // a faire
                     caution: caution,
                     type_paiement: typePaiement,
+                    caution_rendu: dateRenduCaution // a faire
                 })
             });
 
