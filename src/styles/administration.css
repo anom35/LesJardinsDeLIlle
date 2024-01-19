@@ -11,9 +11,8 @@
 }
 
 .create-user {
-    border: 1px solid var(--bg-footer);
-    padding: 10px;
-    max-width: 320px;
+    padding: 10px 20px;
+    width: 330px;
     background-color: var(--bg-create-user);
     color: var(--gris-tres-clair);
 }
@@ -39,8 +38,11 @@
     margin-top: 10px;
 }
 
-.ajout-jardinier {
-    min-width: 300px;
+.ajout-jardinier h3 {
+    font-size: 1rem;
+    background-color: var(--bg-create-user);
+    color: cyan;
+    padding-top: 10px;
 }
 
 .choix-jardin {

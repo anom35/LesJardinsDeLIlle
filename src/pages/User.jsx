@@ -19,17 +19,21 @@ export default function AuthModal({ show, isLoggedIn, setIsLoggedIn }) {
                     email: email,
                     password: password
                 })
-            });
-
+            })
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('authToken', data.token);
+                setError("");
+                setIsLoggedIn(true);
+                console.log(data.token)
+            })
+            
             if (!response.ok) {
                 throw new Error(`Erreur HTTP ${response.status}`);
             }
 
-            setError("");
-            setIsLoggedIn(true);
-
-        } catch (error) {
-            console.error(error.message);
+        } 
+        catch (error) {
             setError("Erreur sur l'ensemble Email et Mot de passe");
         }
     };

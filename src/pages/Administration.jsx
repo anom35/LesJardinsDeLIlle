@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
 import "../styles/administration.css"
 
 
-export default function Administration() {
+export default function Administration({ setIsLoggedIn }) {
 
     const today = new Date().toISOString().split('T')[0];
+    const navigate = useNavigate();
     
     const [Error, setError] = useState("");
     const [tableUsers, setTableUsers] = useState([]);
@@ -21,16 +23,17 @@ export default function Administration() {
     const [motDePasse, setMotDePasse] = useState("");
     const [caution, setCaution] = useState("");
     const [typePaiement, setTypePaiement] = useState("");
-    const [parcelle, setParcelle] = useState("");
-    const [fin_inscription, setFin_inscription] = useState("");
-    const [caution_rendu, setCaaution_rendu] = useState("");
+    const [numParcelle, setNumParcelle] = useState("");
+    const [fin_inscription, setFinInscription] = useState("");
+    const [cautionRendu, setCautionRendu] = useState("");
 
     const createAdherant = async () => {
         try {
             const response = await fetch('http://localhost:3513/signup', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
                 },
                 body: JSON.stringify({
                     password: motDePasse,
@@ -39,13 +42,13 @@ export default function Administration() {
                     prenom: prenom,
                     date_inscription: selectedDate,
                     jardin: selectedJardin,
-                    parcelle, parcelle, // a faire
+                    parcelle: numParcelle, 
                     adresse: adresse,
                     telephone: telephone,
-                    fin_inscription: selectedFin, // a faire
+                    date_fin: fin_inscription, 
                     caution: caution,
                     type_paiement: typePaiement,
-                    caution_rendu: dateRenduCaution // a faire
+                    caution_rendu: cautionRendu 
                 })
             });
 
@@ -61,15 +64,43 @@ export default function Administration() {
         }
     };
 
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        setIsLoggedIn(false);
+        navigate('/');
+    };
+    
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.removeItem('authToken');
+        };
+
+        const handleRouteChange = () => {
+            handleLogout();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+
+        const unlisten = navigate.listen(handleRouteChange);
+        return () => {
+            unlisten(); 
+        };
+    }, [navigate]);
+
+
     return (
         <div>
             <Shaping>
                 <Header />
                 <div className="fc fdc aic admin-container">
-                    <h2>Page d'Administration</h2>
+                    {/* <h2>Page d'Administration</h2> */}
                     <div className='ajout-jardinier'>
-                        <h3>Créer une fiche adhérent</h3>
-                        <form className="create-user" action="#">
+                        <h3 className='fc'>Créer une fiche adhérent</h3>
+                        <form className="create-user" action="#" autoComplete="off">
                             <label>Date d'inscription</label>
                             <input
                                 type="date"
@@ -94,10 +125,32 @@ export default function Administration() {
                                     <option value="Piconnerie">Piconnerie</option>
                                 </select>
                             </label>
+                            <label>Parcelle(s)</label>
+                            <input type="text" placeholder="18a" value={numParcelle} onChange={(e) => setNumParcelle(e.target.value)} />
                             <label>Caution</label>
-                            <input type="text" placeholder="25€" value={caution} onChange={(e) => setCaution(e.target.value)} />
+                            <input type="text" placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} />
                             <label>Type de paiement</label>
                             <input type="text" placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)}/>
+
+                            <label>Date de fin adhérent</label>
+                            <input
+                                type="date"
+                                value={fin_inscription}
+                                placeholder=''
+                                onChange={(e) => setFinInscription(e.target.value)}
+                            />
+
+                            <label>Caution rendu</label>
+                            <input type="text" placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} />
+
+
+                            <label>Date de rendu de la caution</label>
+                            <input
+                                type="date"
+                                value={cautionRendu}
+                                placeholder=''
+                                onChange={(e) => setCautionRendu(e.target.value)}
+                            />
 
 
                             <button type="button" onClick={createAdherant}>Créer adhérent</button>
