@@ -13,6 +13,8 @@
     --shadow: rgba(0, 255, 255, 0.378);
     --bg-info: rgba(247, 0, 255, 0.222);
     --bg-create-user: rgb(47, 47, 63);
+    --bg-message: rgb(107, 255, 107);
+    --bg-message-erreur: rgb(255, 97, 97);
 
     --font-titre-header: "Pacifico";
 }
@@ -45,6 +47,21 @@ ul, li {
 .btn:hover {
     cursor: pointer;
     background-color: var(--bg-header);
+}
+
+.btn2 {
+    background-color: var(--bg-header);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    letter-spacing: 1.5px;
+    border: 3px solid var(--bg-header);
+}
+
+.btn2:hover {
+    cursor: pointer;
+    background-color: var(--bg-header);
+    border-color: cyan;
 }
 
 .bg-titre {
