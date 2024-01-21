@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
+import Message from "../components/Message"
 import "../styles/administration.css"
 
 
@@ -11,8 +12,9 @@ export default function Administration({ setIsLoggedIn }) {
     const today = new Date().toISOString().split('T')[0];
     const navigate = useNavigate();
     
+    const [allUsers, setAllUsers] = useState([]);
+
     const [Error, setError] = useState("");
-    const [tableUsers, setTableUsers] = useState([]);
     const [selectedDate, setSelectedDate] = useState(today);
     const [selectedJardin, setSelectedJardin] = useState("Chaponerais");
     const [nom, setNom] = useState("");
@@ -51,19 +53,28 @@ export default function Administration({ setIsLoggedIn }) {
                     caution_rendu: cautionRendu 
                 })
             });
-
-            if (!response.ok) {
-                throw new Error(`Erreur HTTP ${response.status}`);
-            }
-
-            setTableUsers(await response.json());
-            console.log(tableUsers);
-
+            if (!response.ok) { throw new Error(`Erreur HTTP ${response.status}`); }
+            <Message message="Adhérent créé avec succès!" />
         } catch (error) {
             setError("Erreur lors de la création d'une fiche adhérent");
         }
     };
 
+    const getAllAdherants = async () => {
+        try {
+            const response = await fetch('http://localhost:3513/get-all-users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                }
+            });
+            if (!response.ok) { throw new Error(`Erreur HTTP ${response.status}`); }
+            setAllUsers(await response.json());
+        } catch (error) {
+            setError("Erreur lors de la création d'une fiche adhérent");
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('authToken');
@@ -72,10 +83,12 @@ export default function Administration({ setIsLoggedIn }) {
     };
     
     useEffect(() => {
+
+        getAllAdherants();
+
         const handleBeforeUnload = () => {
             localStorage.removeItem('authToken');
         };
-
         const handleRouteChange = () => {
             handleLogout();
         };
@@ -117,7 +130,7 @@ export default function Administration({ setIsLoggedIn }) {
                             <input type="text" placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
                             <label>Email</label>
                             <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            <label>Mot de passe</label>
+                            <label>Mot de passe (admin)</label>
                             <input type="password" placeholder="<PASSWORD>"  value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
                             <label className='choix-jardin'>Jardin :&nbsp;
                                 <select value={selectedJardin} onChange={(e) => setSelectedJardin(e.target.value)}>
