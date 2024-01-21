@@ -58,12 +58,10 @@
     padding-top: 10px;
 }
 
-.choix-jardin {
-    margin: 5px 0!important;
-}
 
-.choix-jardin select {
-   padding: 5px 0;
+.form2 select {
+   margin-bottom: 10px;
+   height: 28px;
 }
 
 .show-off {
@@ -73,3 +71,32 @@
 .show-on {
     display: block;
 }
+
+/* padding 0 10px; */
+.table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    max-width: 100%;
+    font-size: 14px;
+}
+  
+.table-header th {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid black;
+}
+  
+.table-body td {
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    border: 1px solid black;
+    padding: 0 10px;
+}
+
+.custom-password-column {
+    width: 200px; 
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import { useTable } from 'react-table';
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
@@ -16,6 +17,7 @@ export default function Administration({ setIsLoggedIn }) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [btnCreateAdherent, setBtnCreateAdherent] = useState(false);
+    const [listeAdherent, setListeAdherent] = useState(false);
 
     const [Error, setError] = useState("");
     const [selectedDate, setSelectedDate] = useState(today);
@@ -86,6 +88,61 @@ export default function Administration({ setIsLoggedIn }) {
         }
     };
 
+    //* affiche une table de tous les adhérents
+    function AdherentsTable({ data }) {
+        const columns = React.useMemo(
+            () => [
+                { Header: 'Inscription', accessor: 'date_inscription' },
+                { Header: 'Nom', accessor: 'nom' },
+                { Header: 'Prénom', accessor: 'prenom' },
+                { Header: 'Adresse', accessor: 'adresse' },
+                { Header: 'Téléphone', accessor: 'telephone' },
+                { Header: 'Email', accessor: 'email' },
+                { 
+                    Header: 'Mot de passe', 
+                    accessor: 'password',
+                    className: 'custom-password-column'
+                },
+                { Header: 'Jardin', accessor: 'jardin' },
+                { Header: 'Parcelle', accessor: 'parcelle' },
+                { Header: 'Caution', accessor: 'caution' },
+                { Header: 'Type de paiement', accessor: 'type_paiement' },
+                { Header: 'Date fin d\'adhésion', accessor: 'date_fin' },
+                { Header: 'Caution rendu', accessor: 'caution_rendu' },
+            ],[]
+        );
+      
+        const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
+      
+        return (
+            <table {...getTableProps()} className="table">
+                <thead className="table-header">
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                            ))}
+                        </tr>
+                    ))}
+                </thead>
+                <tbody  className="table-body" {...getTableBodyProps()}>
+                    {rows.map(row => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    return (
+                                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    );
+                                })}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        );
+    }
+      
 
     const resetForm = () => {
         setSelectedDate(today);
@@ -113,6 +170,10 @@ export default function Administration({ setIsLoggedIn }) {
         setBtnCreateAdherent(!btnCreateAdherent);
     }
 
+    const activeListeAdherents = () => {
+        setListeAdherent(!listeAdherent);
+    }
+
     useEffect(() => {
         getAllAdherants();
         resetForm();
@@ -136,78 +197,73 @@ export default function Administration({ setIsLoggedIn }) {
                 <div className="fc fdc aic admin-container">
                     <div className="boutons">
                         <button className="btn2" onClick={activeCreateAdherant}>Création adhérent</button>
-                        <button className="btn2" onClick={activeCreateAdherant}>Liste des adhérents</button>
-                    </div>                
-                    <div className={btnCreateAdherent ? "ajout-jardinier show-on" : "ajout-jardinier show-off"}>
-                        <h3 className='fc'>Créer une fiche adhérent</h3>
-                        <form className="create-user" action="#" autoComplete="off">
-                            <div className="form-container">
-                                <div className="form1">
-                                    <label>Date d'inscription</label>
-                                    <input
-                                        type="date"
-                                        value={selectedDate}
-                                        onChange={(e) => setSelectedDate(e.target.value)}
-                                    />
-                                    <label>Nom</label>
-                                    <input type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)}/>
-                                    <label>Prénom</label>
-                                    <input type="text" placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-                                    <label>Adresse</label>
-                                    <input type="text" placeholder="Adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)}/>
-                                    <label>Téléphone</label>
-                                    <input type="text" placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
-                                    <label>Email</label>
-                                    <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                    <label>Mot de passe (admin)</label>
-                                    <input type="password" placeholder="<PASSWORD>"  value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
-                                </div>
-                                <div className="form2">
-                                    <label className='choix-jardin'>Jardin :&nbsp;
+                        <button className="btn2" onClick={activeListeAdherents}>Liste des adhérents</button>
+                    </div>
+                    <div className="container-section">               
+                        <div className={btnCreateAdherent ? "ajout-jardinier show-on" : "ajout-jardinier show-off"}>
+                            <h3 className='fc'>Créer une fiche adhérent</h3>
+                            <form className="create-user" action="#" autoComplete="off">
+                                <div className="form-container">
+                                    <div className="form1">
+                                        <label>Date d'inscription</label>
+                                        <input
+                                            type="date"
+                                            value={selectedDate}
+                                            onChange={(e) => setSelectedDate(e.target.value)}
+                                        />
+                                        <label>Nom</label>
+                                        <input type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)}/>
+                                        <label>Prénom</label>
+                                        <input type="text" placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} />
+                                        <label>Adresse</label>
+                                        <input type="text" placeholder="Adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)}/>
+                                        <label>Téléphone</label>
+                                        <input type="text" placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
+                                        <label>Email</label>
+                                        <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <label>Mot de passe (admin)</label>
+                                        <input type="password" placeholder="<PASSWORD>"  value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
+                                    </div>
+                                    <div className="form2">
+                                        <label className='choix-jardin'>Jardin</label>
                                         <select value={selectedJardin} onChange={(e) => setSelectedJardin(e.target.value)}>
                                             <option value="Chaponerais">Chaperonnerais</option>
                                             <option value="Piconnerie">Piconnerie</option>
                                         </select>
-                                    </label>
-                                    <label>Parcelle(s)</label>
-                                    <input type="text" placeholder="18a" value={numParcelle} onChange={(e) => setNumParcelle(e.target.value)} />
-                                    <label>Caution</label>
-                                    <input type="text" placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} />
-                                    <label>Type de paiement</label>
-                                    <input type="text" placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)}/>
+                                        <label>Parcelle(s)</label>
+                                        <input type="text" placeholder="18a" value={numParcelle} onChange={(e) => setNumParcelle(e.target.value)} />
+                                        <label>Caution</label>
+                                        <input type="text" placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} />
+                                        <label>Type de paiement</label>
+                                        <input type="text" placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)}/>
 
-                                    <label>Date de fin adhérent</label>
-                                    <input
-                                        type="date"
-                                        value={fin_inscription}
-                                        placeholder=''
-                                        onChange={(e) => setFinInscription(e.target.value)}
-                                    />
+                                        <label>Date de fin adhérent</label>
+                                        <input
+                                            type="date"
+                                            value={fin_inscription}
+                                            placeholder=''
+                                            onChange={(e) => setFinInscription(e.target.value)}
+                                        />
 
-                                    <label>Caution rendu</label>
-                                    <input type="text" placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} />
-
-
-                                    <label>Date de rendu de la caution</label>
-                                    <input
-                                        type="date"
-                                        value={cautionRendu}
-                                        placeholder=''
-                                        onChange={(e) => setCautionRendu(e.target.value)}
-                                    />
+                                        <label>Caution rendu</label>
+                                        <input type="text" placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <button type="button" onClick={createAdherant}>Créer adhérent</button>
+                                <button type="button" onClick={createAdherant}>Créer adhérent</button>
 
-                            {!errorMessage && (
-                                (successMessage && <Message message={successMessage} erreur={false} />)
-                            )}
+                                {!errorMessage && (
+                                    (successMessage && <Message message={successMessage} erreur={false} />)
+                                )}
 
-                            {errorMessage && (
-                                (successMessage && <Message message={successMessage} erreur={true} />)
-                            )}
-                        </form>
+                                {errorMessage && (
+                                    (successMessage && <Message message={successMessage} erreur={true} />)
+                                )}
+                            </form>
+                        </div>
+                        <div className={listeAdherent ? "liste-adherents show-on" : "liste-adherents show-off" }>
+                            <AdherentsTable data={allUsers} />
+                        </div>
                     </div>
                 </div>
             </Shaping>
