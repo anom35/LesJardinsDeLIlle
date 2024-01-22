@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import { useTable } from 'react-table';
+import { reformatDate } from '../components/fonctions';
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
@@ -18,6 +19,8 @@ export default function Administration({ setIsLoggedIn }) {
     const [errorMessage, setErrorMessage] = useState("");
     const [btnCreateAdherent, setBtnCreateAdherent] = useState(false);
     const [listeAdherent, setListeAdherent] = useState(false);
+    const [filterJardin, setFilterJardin] = useState("");
+    const [filterNom, setFilterNom] = useState("");
 
     const [Error, setError] = useState("");
     const [selectedDate, setSelectedDate] = useState(today);
@@ -88,11 +91,38 @@ export default function Administration({ setIsLoggedIn }) {
         }
     };
 
+    // Filtrer par jardin
+    const filterByJardin = () => {
+        setFilterJardin("valeur du jardin"); // Remplacez par la valeur appropriée
+        setFilterNom(""); // Réinitialiser l'autre filtre
+    };
+
+    // Filtrer par nom
+    const filterByName = (nom) => {
+        setFilterNom(nom);
+        setFilterJardin(""); // Réinitialiser l'autre filtre
+    };
+
+    // Annuler les filtres
+    const clearFilters = () => {
+        setFilterJardin("");
+        setFilterNom("");
+    };
+
+    const filteredData = allUsers.filter(user => {
+        return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.includes(filterNom));
+    });
+
+
     //* affiche une table de tous les adhérents
     function AdherentsTable({ data }) {
         const columns = React.useMemo(
             () => [
-                { Header: 'Inscription', accessor: 'date_inscription' },
+                { 
+                    Header: 'Inscription', 
+                    accessor: 'date_inscription',
+                    Cell: ({ cell }) => (<div>{cell.value ? reformatDate(cell.value) : ''}</div>)
+                },
                 { Header: 'Nom', accessor: 'nom' },
                 { Header: 'Prénom', accessor: 'prenom' },
                 { Header: 'Adresse', accessor: 'adresse' },
@@ -100,46 +130,64 @@ export default function Administration({ setIsLoggedIn }) {
                 { Header: 'Email', accessor: 'email' },
                 { 
                     Header: 'Mot de passe', 
-                    accessor: 'password',
-                    className: 'custom-password-column'
+                    accessor: 'password', 
+                    Cell: ({ cell }) => (<div style={{ width: '100px', overflow: 'hidden'  }}>{cell.value}</div>)
                 },
                 { Header: 'Jardin', accessor: 'jardin' },
                 { Header: 'Parcelle', accessor: 'parcelle' },
                 { Header: 'Caution', accessor: 'caution' },
-                { Header: 'Type de paiement', accessor: 'type_paiement' },
-                { Header: 'Date fin d\'adhésion', accessor: 'date_fin' },
-                { Header: 'Caution rendu', accessor: 'caution_rendu' },
+                { 
+                    Header: 'Type de paiement', 
+                    accessor: 'type_paiement',
+                    Cell: ({ cell }) => (<div style={{ width: '130px', overflow: 'hidden' }}>{cell.value}</div>)
+
+                },
+                { 
+                    Header: 'Date fin d\'adhésion', 
+                    accessor: 'date_fin',
+                    Cell: ({ cell }) => (<div>{cell.value ? reformatDate(cell.value) : ''}</div>)
+                },
+                { 
+                    Header: 'Caution rendu', 
+                    accessor: 'caution_rendu',
+                    Cell: ({ cell }) => (<div style={{ width: '50px', overflow: 'hidden' }}>{cell.value}</div>)
+
+                },
             ],[]
         );
       
         const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
       
         return (
-            <table {...getTableProps()} className="table">
-                <thead className="table-header">
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody  className="table-body" {...getTableBodyProps()}>
-                    {rows.map(row => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
-                                    return (
-                                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                    );
-                                })}
+            <div className="container-table">
+                <table {...getTableProps()} className="table">
+                    <thead className="table-header">
+                        {headerGroups.map(headerGroup => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map(column => (
+                                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                ))}
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                        ))}
+                    </thead>
+                    <tbody className="table-body" {...getTableBodyProps()}>
+                        {rows.map(row => {
+                            prepareRow(row);
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <td {...cell.getCellProps()}>
+                                                {cell.render('Cell')}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
         );
     }
       
@@ -168,10 +216,12 @@ export default function Administration({ setIsLoggedIn }) {
 
     const activeCreateAdherant = () => {
         setBtnCreateAdherent(!btnCreateAdherent);
+        setListeAdherent(false);
     }
 
     const activeListeAdherents = () => {
         setListeAdherent(!listeAdherent);
+        setBtnCreateAdherent(false);
     }
 
     useEffect(() => {
@@ -196,8 +246,10 @@ export default function Administration({ setIsLoggedIn }) {
                 <Header />
                 <div className="fc fdc aic admin-container">
                     <div className="boutons">
-                        <button className="btn2" onClick={activeCreateAdherant}>Création adhérent</button>
                         <button className="btn2" onClick={activeListeAdherents}>Liste des adhérents</button>
+                        <button className="btn2" onClick={activeCreateAdherant}>Création adhérent</button>
+                        <button className="btn2" onClick={activeCreateAdherant}>Modification adhérent</button>
+                        <button className="btn2" onClick={activeCreateAdherant}>Suppression adhérent</button>
                     </div>
                     <div className="container-section">               
                         <div className={btnCreateAdherent ? "ajout-jardinier show-on" : "ajout-jardinier show-off"}>
@@ -262,7 +314,11 @@ export default function Administration({ setIsLoggedIn }) {
                             </form>
                         </div>
                         <div className={listeAdherent ? "liste-adherents show-on" : "liste-adherents show-off" }>
-                            <AdherentsTable data={allUsers} />
+                            <h4 className='fc'>Liste des adhérents</h4>
+                            <button className='btn3' onClick={filterByJardin}>Filtrer par Jardin</button>
+                            <button className='btn3' onClick={clearFilters}>Annuler les Filtres</button>
+                            <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
+                            <AdherentsTable data={filteredData} />
                         </div>
                     </div>
                 </div>

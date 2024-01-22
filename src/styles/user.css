@@ -50,7 +50,7 @@ input {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #249a28;
     color: #fff;
     padding: 10px;
     border: none;
@@ -60,7 +60,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #045a09;
 }
   
 .connexion-reussi {

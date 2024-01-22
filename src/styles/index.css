@@ -15,6 +15,8 @@
     --bg-create-user: rgb(47, 47, 63);
     --bg-message: rgb(107, 255, 107);
     --bg-message-erreur: rgb(255, 97, 97);
+    --bg-btn2: rgb(2, 96, 2);
+    --bg-btn-hover2: rgb(5, 175, 5);
 
     --font-titre-header: "Pacifico";
 }
@@ -41,7 +43,7 @@ ul, li {
     background-color: var(--btn-color);
     color: white;
     padding: 10px 20px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .btn:hover {
@@ -50,19 +52,34 @@ ul, li {
 }
 
 .btn2 {
-    background-color: var(--bg-header);
+    background-color: var(--bg-btn2);
     color: white;
     padding: 10px 20px;
-    border-radius: 10px;
+    border-radius: 5px;
     letter-spacing: 1.5px;
-    border: 3px solid var(--bg-header);
 }
 
 .btn2:hover {
     cursor: pointer;
-    background-color: var(--bg-header);
-    border-color: cyan;
+    background-color: var(--bg-btn-hover2);
 }
+
+.btn3 {
+    background-color: var(--bg-footer);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 0.8rem!important;
+    margin: 5px;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+}
+
+.btn3:hover {
+    cursor: pointer;
+    background-color: var(--bg-btn-hover2);
+}
+
 
 .bg-titre {
     margin: 40px auto;
@@ -86,8 +103,6 @@ ul, li {
 .jca {
     justify-content: space-around;
 }
-
-
 .aic {
     align-items: center;
 }
