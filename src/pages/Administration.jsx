@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useTable } from 'react-table';
+import styled from "styled-components";
 import { reformatDate } from '../components/fonctions';
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
 import Message from "../components/Message"
 import "../styles/administration.css"
+// import { computeHeadingLevel } from '@testing-library/react';
 
 
 export default function Administration({ setIsLoggedIn }) {
@@ -21,6 +23,7 @@ export default function Administration({ setIsLoggedIn }) {
     const [listeAdherent, setListeAdherent] = useState(false);
     const [filterJardin, setFilterJardin] = useState("");
     const [filterNom, setFilterNom] = useState("");
+    const [selectedRow, setSelectedRow] = useState(null);
 
     const [Error, setError] = useState("");
     const [selectedDate, setSelectedDate] = useState(today);
@@ -37,63 +40,11 @@ export default function Administration({ setIsLoggedIn }) {
     const [fin_inscription, setFinInscription] = useState("");
     const [cautionRendu, setCautionRendu] = useState("");
 
-    const createAdherant = async () => {
-        try {
-            const response = await fetch('http://localhost:3513/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                },
-                body: JSON.stringify({
-                    password: motDePasse,
-                    email: email,
-                    nom: nom,
-                    prenom: prenom,
-                    date_inscription: selectedDate,
-                    jardin: selectedJardin,
-                    parcelle: numParcelle, 
-                    adresse: adresse,
-                    telephone: telephone,
-                    date_fin: fin_inscription, 
-                    caution: caution,
-                    type_paiement: typePaiement,
-                    caution_rendu: cautionRendu 
-                })
-            });
-            if (!response.ok) { 
-                throw new Error(`Erreur HTTP ${response.status}`); 
-            } else { 
-                setSuccessMessage("Adhérent créé avec succès !");
-                setErrorMessage(false);
-                resetForm();
-            }
-        } catch (error) {
-            setError("Erreur lors de la création d'une fiche adhérent");
-            setSuccessMessage("Erreur lors de la création !");
-            setErrorMessage(true);
-        }
-    };
 
-    const getAllAdherants = async () => {
-        try {
-            const response = await fetch('http://localhost:3513/get-all-users', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                }
-            });
-            if (!response.ok) { throw new Error(`Erreur HTTP ${response.status}`); }
-            setAllUsers(await response.json());
-        } catch (error) {
-            setError("Erreur lors de la création d'une fiche adhérent");
-        }
-    };
 
     // Filtrer par jardin
-    const filterByJardin = () => {
-        setFilterJardin("valeur du jardin"); // Remplacez par la valeur appropriée
+    const handleJardinChange = (e) => {
+        setFilterJardin(e.target.value); // Remplacez par la valeur appropriée
         setFilterNom(""); // Réinitialiser l'autre filtre
     };
 
@@ -113,9 +64,36 @@ export default function Administration({ setIsLoggedIn }) {
         return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.includes(filterNom));
     });
 
+    const handleEdit = async (e) => {
+    }
+
+    const handleDelete = async (e) => {
+    }
+
+    const Styles = styled.div`
+        padding: 1rem;
+
+        table {
+            border-spacing: 0;
+            border: 1px solid black;
+            tr {
+                :last-child { td { border-bottom: 0; }}
+            }
+            th,
+            td {
+                margin: 0;
+                padding: 0.5rem;
+                border-bottom: 1px solid black;
+                border-right: 1px solid black;
+                :last-child {
+                    border-right: 0;
+                }
+            }
+        }
+        `;
 
     //* affiche une table de tous les adhérents
-    function AdherentsTable({ data }) {
+    function AdherentsTable({ data, selectedRow = null }) {
         const columns = React.useMemo(
             () => [
                 { 
@@ -158,6 +136,30 @@ export default function Administration({ setIsLoggedIn }) {
       
         const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({ columns, data });
       
+        const getRowProps = (row) => {
+            const backgroundColor = selectedRow === row.index ? "orange" : null;
+            return {
+                onClick: () => {
+                    if (selectedRow === row.index) {
+                        setSelectedRow(null);
+                    } else {
+                        setSelectedRow(row.index);
+                    }
+                },
+                style: {
+                    backgroundColor
+                }
+            };
+            const {
+                getTableProps,
+                getTableBodyProps,
+                headerGroups,
+                rows,
+                prepareRow
+            } = useTable({ columns, data, getRowProps });
+        };
+        
+
         return (
             <div className="container-table">
                 <table {...getTableProps()} className="table">
@@ -170,17 +172,13 @@ export default function Administration({ setIsLoggedIn }) {
                             </tr>
                         ))}
                     </thead>
-                    <tbody className="table-body" {...getTableBodyProps()}>
+                    <tbody {...getTableBodyProps()}>
                         {rows.map(row => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()}>
+                                <tr  {...row.getRowProps()}>
                                     {row.cells.map(cell => {
-                                        return (
-                                            <td {...cell.getCellProps()}>
-                                                {cell.render('Cell')}
-                                            </td>
-                                        );
+                                        return (<td {...cell.getCellProps()}>{cell.render('Cell')}</td>);
                                     })}
                                 </tr>
                             );
@@ -212,7 +210,6 @@ export default function Administration({ setIsLoggedIn }) {
         setIsLoggedIn(false);
         navigate('/');
     };
-    
 
     const activeCreateAdherant = () => {
         setBtnCreateAdherent(!btnCreateAdherent);
@@ -234,9 +231,7 @@ export default function Administration({ setIsLoggedIn }) {
             handleLogout();
         };
         window.addEventListener('beforeunload', handleBeforeUnload);
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
+        return () => { window.removeEventListener('beforeunload', handleBeforeUnload); };
     }, [navigate]);
 
 
@@ -315,10 +310,30 @@ export default function Administration({ setIsLoggedIn }) {
                         </div>
                         <div className={listeAdherent ? "liste-adherents show-on" : "liste-adherents show-off" }>
                             <h4 className='fc'>Liste des adhérents</h4>
-                            <button className='btn3' onClick={filterByJardin}>Filtrer par Jardin</button>
-                            <button className='btn3' onClick={clearFilters}>Annuler les Filtres</button>
-                            <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
-                            <AdherentsTable data={filteredData} />
+                            <select className='choix-jardin' value={filterJardin} onChange={handleJardinChange}>
+                                <option value="">Tous les Jardins</option>
+                                <option value="Chaperonnerais">Chaperonnerais</option>
+                                <option value="Piconnerie">Piconnerie</option>
+                            </select>
+                            <button className='btn3 annule-filtre' onClick={clearFilters}>Annuler les Filtres</button>
+                            <label className='label-search'>Recherche par Nom
+                                <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
+                            </label>
+                            <AdherentsTable data={filteredData} selectedRow={selectedRow} setSelectedRow={setSelectedRow} />
+                            <button
+                                className='btn3'
+                                onClick={() => handleEdit(selectedRow)}
+                                disabled={!selectedRow}
+                            >
+                                Modifier
+                            </button>
+                            <button
+                                className='btn3'
+                                onClick={() => handleDelete(selectedRow)}
+                                disabled={!selectedRow}
+                            >
+                                Supprimer
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -17,7 +17,7 @@
     --bg-message-erreur: rgb(255, 97, 97);
     --bg-btn2: rgb(2, 96, 2);
     --bg-btn-hover2: rgb(5, 175, 5);
-
+    --bg-grid: #011e3598;
     --font-titre-header: "Pacifico";
 }
 
@@ -55,8 +55,9 @@ ul, li {
     background-color: var(--bg-btn2);
     color: white;
     padding: 10px 20px;
+    font-size: 0.8rem!important;
     border-radius: 5px;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
 }
 
 .btn2:hover {
@@ -67,7 +68,7 @@ ul, li {
 .btn3 {
     background-color: var(--bg-footer);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 10px;
     border-radius: 5px;
     font-size: 0.8rem!important;
     margin: 5px;
