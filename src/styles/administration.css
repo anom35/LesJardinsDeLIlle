@@ -60,9 +60,15 @@
 }
 
 
-.form2 select {
+.form2 select,
+.form1 select {
    margin-bottom: 10px;
    height: 28px;
+}
+
+.form1 select {
+    background-color: var(--bg-header);
+    color: white
 }
 
 .show-off {
@@ -86,10 +92,6 @@
     background-color: var(--bg-header);
 }
 
-.choix-jardin {
-    margin-top: 5px;
-    height: 30px;
-}
 
 .label-jardin,
 .container-button {
@@ -98,6 +100,12 @@
     background-color: var(--bg-info);
     padding: 5px 10px;
     font-size: 14px;
+}
+
+.choix-jardin {
+    height: 30px;
+    margin: 5px 0 10px;
+    padding: 8px;
 }
 
 .container-button {
