@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
-import { getAllAdherants, createAdherant } from '../components/Reseaux';
+import { getAllAdherants, createAdherant, modifyAdherant } from '../components/Reseaux';
 import Message from "../components/Message"
 import "../styles/administration.css"
 
@@ -70,7 +70,7 @@ export default function Administration2({ setIsLoggedIn }) {
   const [isCreateFiche, setIsCreateFiche] = useState(false);
   
   const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedJardin, setSelectedJardin] = useState("Chaponerais");
+  const [selectedJardin, setSelectedJardin] = useState("Chaponnerais");
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [adresse, setAdresse] = useState("");
@@ -245,10 +245,33 @@ export default function Administration2({ setIsLoggedIn }) {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
   
-  const formatDateForInput = (dateString) => {
-    const [day, month, year] = dateString.split('/');
-    return `${year}-${month}-${day}`;
+  // const formatDateForInput = (dateString) => {
+  //   const [day, month, year] = dateString.split('/');
+  //   return `${year}-${month}-${day}`;
+  // };
+
+
+  const handleConfirmClick = () => {
+    const enregistrement = { nom, prenom, adresse, telephone, email, motDePasse, selectedDate, selectedJardin, numParcelle, fin_inscription, caution, typePaiement, cautionRendu };
+
+    if (statusBtn === 1) {
+      createAdherant(enregistrement)
+        .then((response, errorMessage) => {
+          if (errorMessage) {
+            console.error(errorMessage);
+            console.log(response)
+          } else {
+            <Message message="Adhérent créé avec succès" type="success" erreur={false} />;
+            resetForm();
+          }
+        });
+    } else if (statusBtn === 2) {
+      modifyAdherant(enregistrement)
+    } else if (statusBtn === 3) {
+    }
   };
+
+
 
   return (
       <>
@@ -322,7 +345,7 @@ export default function Administration2({ setIsLoggedIn }) {
                             )}
 
                             <label form='date'>Date d'inscription</label>
-                            <input type="text" name='date' value={selectedDate} onChange={(e) => reformatDate(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                            <input type="text" name='date' value={selectedDate} onChange={(e) => setSelectedDate(reformatDate(e.target.value))} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='nom'>Nom</label>
                             <input type="text" name='nom' placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
@@ -376,14 +399,14 @@ export default function Administration2({ setIsLoggedIn }) {
                             <input type="text" name='type_paiement' placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='date_fin'>Date de fin adhérent</label>
-                            <input type="text" name='date_fin' value={fin_inscription} placeholder='' onChange={(e) => setFinInscription(formatDateForInput(reformatDate(e.target.value)))} disabled={statusBtn === 3 ? true : false}/>
+                            <input type="text" name='date_fin' value={fin_inscription} placeholder='' onChange={(e) => setFinInscription(reformatDate(e.target.value))} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='caution-rendu'>Caution rendu</label>
                             <input type="text" name='caution-rendu' placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} disabled={statusBtn === 3 ? true : false} />
                           </div>
                         </div>
 
-                        <button type="button" onClick={createAdherant}>Confirmer</button>
+                        <button type="button" onClick={handleConfirmClick}>Confirmer</button>
 
                         {!errorMessage && ((successMessage && <Message message={successMessage} erreur={false} />))}
                         {errorMessage && ((successMessage && <Message message={successMessage} erreur={true} />))}
