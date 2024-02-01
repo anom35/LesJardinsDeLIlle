@@ -3,6 +3,6 @@ import { Navigate } from 'react-router-dom';
 import Administration from '../pages/Administration';
 
 export default function PrivateRoute({ isLoggedIn }) {
-    return isLoggedIn ? <Administration /> : Navigate("/");
+    return isLoggedIn ? <Administration /> : <Navigate to="/" />;
 }
 

@@ -8,4 +8,4 @@ export function reformatDate(inputDate) {
     const formattedMonth = month < 10 ? `0${month}` : month;
   
     return `${formattedDay}/${formattedMonth}/${year}`;
-  }
+}

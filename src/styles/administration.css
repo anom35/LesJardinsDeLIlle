@@ -102,11 +102,6 @@
     font-size: 14px;
 }
 
-.choix-jardin {
-    height: 30px;
-    margin: 5px 0 10px;
-    padding: 8px;
-}
 
 .container-button {
     width: 300px;
@@ -132,10 +127,10 @@
     margin-top: 5px;
 }
 
-.container-section {
-    color: orange;
+.choix-jardin2 {
+    padding: 8px;
+    margin-top: 5px;
 }
-
 
 .modal2 {
     position: fixed;
