@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
-import { reformatDate } from '../components/fonctions';
 import styled from "styled-components";
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
-import { getAllAdherants, createAdherant, modifyAdherant } from '../components/Reseaux';
+import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant } from '../components/Reseaux';
 import Message from "../components/Message"
 import "../styles/administration.css"
 
 
 
 const TableContainer = styled.div`
-  padding: 10px 0;
   width: 100%;
   height: calc(100vh - 450px);
   overflow-x: auto;
@@ -23,7 +21,7 @@ const Table = styled.table`
   width: 100vw;
   border-collapse: collapse;
   font-size: 12px;
-  background-color: var(--bg-grid); 
+  background-color: var(--bg-cell); 
   color: white;
 
   th, td, tr {
@@ -33,6 +31,7 @@ const Table = styled.table`
   }
   th {
     background-color: var(--bg-grid); 
+    border-bottom: 2px solid white;
     color: white;
   }
   &::before {
@@ -42,7 +41,7 @@ const Table = styled.table`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--bg-grid);
+    background-color: var(--bg-cell);
     z-index: -1;
   }
 `;
@@ -70,7 +69,7 @@ export default function Administration2({ setIsLoggedIn }) {
   const [isCreateFiche, setIsCreateFiche] = useState(false);
   
   const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedJardin, setSelectedJardin] = useState("Chaponnerais");
+  const [selectedJardin, setSelectedJardin] = useState("Chaperonnerais");
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [adresse, setAdresse] = useState("");
@@ -86,12 +85,22 @@ export default function Administration2({ setIsLoggedIn }) {
   const [keyMail, setKeyMail] = useState(0);
   const [keyPassword, setKeyPassword] = useState(0);
 
-  useEffect(() => {
-    setEmail("");
-    setMotDePasse("");
-  }, []);
+  // useEffect(() => {
+  //   setEmail("");
+  //   setMotDePasse("");
+  // }, []);
 
-  
+  function reformatDate(dateString) {
+    if (dateString && dateString.includes('-')) {
+      const dateParts = dateString.split('-');
+      if (dateParts.length === 3) {
+        const [year, month, day] = dateParts;
+        return `${day}/${month}/${year}`;
+      }
+    }
+    return dateString; 
+  }
+
   useEffect(() => {
     if (!isCreateFiche) {
       async function fetchData() {
@@ -139,7 +148,7 @@ export default function Administration2({ setIsLoggedIn }) {
   }, [isCreateFiche]);
       
   const resetForm = () => {
-    setSelectedDate(reformatDate(today)); //.split("T")[0]);
+    setSelectedDate(today);
     setNom("");
     setPrenom("");
     setAdresse("");
@@ -158,11 +167,7 @@ export default function Administration2({ setIsLoggedIn }) {
     setFilterNom(""); 
   };
 
-  // Annuler les filtres
-  // const clearFilters = () => {
-  //   setFilterJardin("");
-  //   setFilterNom("");
-  // };
+  
   
   // Lorsque l'utilisateur clique sur le bouton Creer un adhérent
   const handleCreate = () => {
@@ -194,9 +199,9 @@ export default function Administration2({ setIsLoggedIn }) {
   }
   
   
-  const filteredData = allUsers.filter(user => {
-    return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.toLowerCase().includes(filterNom));
-  });
+  // const filteredData = allUsers.filter(user => {
+  //   return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.toLowerCase().includes(filterNom));
+  // });
   
   
   // Filtrer par nom
@@ -206,7 +211,7 @@ export default function Administration2({ setIsLoggedIn }) {
   };
   
 
-
+// Lorsque l'utilisateur clique sur un choix de menu, ca supprime le Token, met l'identification à false, et redirige vers la page d'accueil
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setIsLoggedIn(false);
@@ -218,8 +223,8 @@ export default function Administration2({ setIsLoggedIn }) {
     const [selectedNom, selectedPrenom] = selectedAdherent.split(" ");
     const selectedUser = allUsers.find((user) => user.nom === selectedNom && user.prenom === selectedPrenom);
     if (selectedUser) {
-      if (reformatDate(selectedUser.date_inscription) !=="01/01/1970") {
-        setSelectedDate(reformatDate(selectedUser.date_inscription));
+      if (selectedUser.date_inscription !=="01/01/1970") {
+        setSelectedDate(selectedUser.date_inscription);
       } else {
         setSelectedDate("");
       }
@@ -245,32 +250,46 @@ export default function Administration2({ setIsLoggedIn }) {
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
   
-  // const formatDateForInput = (dateString) => {
-  //   const [day, month, year] = dateString.split('/');
-  //   return `${year}-${month}-${day}`;
-  // };
 
 
-  const handleConfirmClick = () => {
+  const handleConfirmClick = async () => {
     const enregistrement = { nom, prenom, adresse, telephone, email, motDePasse, selectedDate, selectedJardin, numParcelle, fin_inscription, caution, typePaiement, cautionRendu };
-
+  
     if (statusBtn === 1) {
-      createAdherant(enregistrement)
-        .then((response, errorMessage) => {
-          if (errorMessage) {
-            console.error(errorMessage);
-            console.log(response)
-          } else {
-            <Message message="Adhérent créé avec succès" type="success" erreur={false} />;
-            resetForm();
-          }
-        });
+      const resp = await createAdherant(enregistrement); // Attendre la création
+      setSuccessMessage("Adhérent créé avec succès");
     } else if (statusBtn === 2) {
-      modifyAdherant(enregistrement)
+      await modifyAdherant(enregistrement);
+      setSuccessMessage("Adhérent modifié avec succès");
     } else if (statusBtn === 3) {
+      await deleteAdherant(email);
+      setSuccessMessage("Adhérent supprimé avec succès");
     }
+    
+    closeModal();
+
+    // Mettre à jour la liste d'utilisateurs après l'opération
+    const { allUsers, nbreEnregistrements, errorMessage } = await getAllAdherants();
+    setAllUsers(allUsers);
   };
 
+  // Tri des adhérents par ordre alphabétique sur leurs noms
+  // const sortedUsers = useMemo(() => {
+  //   return [...allUsers].sort((a, b) => a.nom.localeCompare(b.nom));
+  // }, [allUsers]);
+  
+
+  const filteredAndSortedData = useMemo(() => {
+    // Filtrez d'abord les données selon les critères de filtrage
+    const filtered = allUsers.filter(user => {
+      return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.toLowerCase().includes(filterNom.toLowerCase()));
+    });
+
+    // Triez ensuite les données filtrées par nom
+    const sorted = filtered.sort((a, b) => a.nom.localeCompare(b.nom));
+
+    return sorted;
+  }, [allUsers, filterJardin, filterNom]);
 
 
   return (
@@ -279,7 +298,7 @@ export default function Administration2({ setIsLoggedIn }) {
               <Header />
               <TableContainer>
                   <Table>
-                      <thead>
+                      <thead className="sticky-header">
                           <tr>
                               <th>Date d'inscription</th>
                               <th>Nom</th>
@@ -297,9 +316,9 @@ export default function Administration2({ setIsLoggedIn }) {
                           </tr>
                       </thead>
                       <tbody>
-                          {filteredData.map((user, index) => (
+                          {filteredAndSortedData.map((user, index) => (
                                   <tr key={index}>
-                                  <td>{reformatDate(user.date_inscription)}</td>
+                                  <td>{user.date_inscription}</td>
                                   <td>{user.nom}</td>
                                   <td>{user.prenom}</td>
                                   <td>{user.adresse}</td>
@@ -345,7 +364,7 @@ export default function Administration2({ setIsLoggedIn }) {
                             )}
 
                             <label form='date'>Date d'inscription</label>
-                            <input type="text" name='date' value={selectedDate} onChange={(e) => setSelectedDate(reformatDate(e.target.value))} disabled={statusBtn === 3 ? true : false}/>
+                            <input type="text" name='date' value={reformatDate(selectedDate)} onChange={(e) => setSelectedDate(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='nom'>Nom</label>
                             <input type="text" name='nom' placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
@@ -385,7 +404,7 @@ export default function Administration2({ setIsLoggedIn }) {
 
                             <label form='choix_jardin' className='choix-jardin'>Jardin</label>
                             <select value={selectedJardin} name='choix_jardin' onChange={(e) => setSelectedJardin(e.target.value)} disabled={statusBtn === 3 ? true : false}>
-                              <option value="Chaponerais">Chaperonnerais</option>
+                              <option value="Chaperonnerais">Chaperonnerais</option>
                               <option value="Piconnerie">Piconnerie</option>
                             </select>
 
@@ -396,10 +415,10 @@ export default function Administration2({ setIsLoggedIn }) {
                             <input type="text" name='caution' placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} disabled={statusBtn === 3 ? true : false} />
 
                             <label form='type_paiement'>Type de paiement</label>
-                            <input type="text" name='type_paiement' placeholder="Type de paiement" value={typePaiement} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                            <input type="text" name='type_paiement' placeholder="Type de paiement" value={(typePaiement)} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='date_fin'>Date de fin adhérent</label>
-                            <input type="text" name='date_fin' value={fin_inscription} placeholder='' onChange={(e) => setFinInscription(reformatDate(e.target.value))} disabled={statusBtn === 3 ? true : false}/>
+                            <input type="text" name='date_fin' value={reformatDate(fin_inscription)} placeholder='' onChange={(e) => setFinInscription(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='caution-rendu'>Caution rendu</label>
                             <input type="text" name='caution-rendu' placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} disabled={statusBtn === 3 ? true : false} />
@@ -408,9 +427,7 @@ export default function Administration2({ setIsLoggedIn }) {
 
                         <button type="button" onClick={handleConfirmClick}>Confirmer</button>
 
-                        {!errorMessage && ((successMessage && <Message message={successMessage} erreur={false} />))}
-                        {errorMessage && ((successMessage && <Message message={successMessage} erreur={true} />))}
-                    </form>
+                      </form>
 
                   </div>
               </div>

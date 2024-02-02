@@ -17,7 +17,8 @@
     --bg-message-erreur: rgb(255, 97, 97);
     --bg-btn2: rgb(2, 96, 2);
     --bg-btn-hover2: rgb(5, 175, 5);
-    --bg-grid: #011e3598;
+    --bg-grid: #011e35;
+    --bg-cell: #011e359b;
     --font-titre-header: "Pacifico";
 }
 

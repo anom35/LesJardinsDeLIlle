@@ -26,7 +26,6 @@ export async function getAllAdherants() {
         errorMessage = "Erreur lors de la récupération des données des adhérents";
         setErrorMessage = false;
     }
-
     return { allUsers, countUsers, errorMessage };
 };
 
@@ -116,3 +115,26 @@ export async function modifyAdherant(enregistrement) {
 
     return (response, errorMessage);
 };
+
+
+
+
+export async function deleteAdherant(email) {
+    try {
+      const response = await fetch(`http://localhost:3513/delete-user/${email}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP ${response.status}`);
+      } else {
+        return { success: true, message: "Adhérent supprimé avec succès !" };
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l’adhérent:', error);
+      return { success: false, message: "Erreur lors de la suppression de la fiche adhérent" };
+    }
+  }
