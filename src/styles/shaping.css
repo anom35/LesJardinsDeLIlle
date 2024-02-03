@@ -6,8 +6,8 @@
 
 
 
-@media (max-width: 560px) {
+@media (max-width: 709px) {
     .shaping {
-        min-height: calc(100vh - 182px);
+       height: calc(100vh - 180px);
     }
 }

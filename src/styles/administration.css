@@ -95,7 +95,7 @@
 
 .label-jardin,
 .container-button {
-    margin: 10px;
+    margin: 5px 10px;
     border: 2px solid var(--bg-header);
     background-color: var(--bg-info);
     padding: 5px 10px;
@@ -114,9 +114,10 @@
 }
 
 .label-search {
-    margin: 10px;
+    margin: 5px 10px;
     padding: 5px 10px;
-    width: 200px;
+    width: 180px;
+    height: 80px;
     font-size: 14px;
     border: 2px solid var(--bg-header);
     background-color: var(--bg-info);
@@ -125,6 +126,7 @@
 
 .search-filter {
     margin-top: 5px;
+    margin-bottom: 0px;
 }
 
 .choix-jardin2 {
@@ -168,10 +170,34 @@
     position: sticky;
     top: 0;
     z-index: 1; 
-  }
+}
 
 
+.message-info {
+    margin: 5px 10px;
+    padding: 5px 10px;
+    max-width: 500px;
+    font-size: 14px;
+    border: 2px solid var(--bg-header);
+    background-color: var(--bg-info);
+}
 
+.affiche-msg input,
+.affiche-msg label {
+    margin: 0;
+    width: auto;
+}
+.affiche-msg input {
+    width: 20px;
+}
+
+.msg-info {
+    margin: 5px 0;
+}
+
+.shaping {
+    background-color: var(--bg-section);
+}
 
 @media (max-width: 710px) {
     .controlPanel {

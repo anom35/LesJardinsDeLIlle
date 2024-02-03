@@ -5,7 +5,6 @@ import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
 import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant } from '../components/Reseaux';
-import Message from "../components/Message"
 import "../styles/administration.css"
 
 
@@ -48,7 +47,7 @@ const Table = styled.table`
 
 export default function Administration2({ setIsLoggedIn }) {
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleDateString('fr-FR');
   const navigate = useNavigate();
   
   const [allUsers, setAllUsers] = useState([]);
@@ -85,20 +84,15 @@ export default function Administration2({ setIsLoggedIn }) {
   const [keyMail, setKeyMail] = useState(0);
   const [keyPassword, setKeyPassword] = useState(0);
 
-  // useEffect(() => {
-  //   setEmail("");
-  //   setMotDePasse("");
-  // }, []);
+
 
   function reformatDate(dateString) {
-    if (dateString && dateString.includes('-')) {
-      const dateParts = dateString.split('-');
-      if (dateParts.length === 3) {
-        const [year, month, day] = dateParts;
-        return `${day}/${month}/${year}`;
-      }
-    }
-    return dateString; 
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric' 
+    });
   }
 
   useEffect(() => {
@@ -161,6 +155,8 @@ export default function Administration2({ setIsLoggedIn }) {
     setEmail("");
     setMotDePasse("");
   }
+
+
   // Filtrer par jardin
   const handleJardinChange = (e) => {
     setFilterJardin(e.target.value);
@@ -197,11 +193,6 @@ export default function Administration2({ setIsLoggedIn }) {
     setColorTitre("red");
     openModal();
   }
-  
-  
-  // const filteredData = allUsers.filter(user => {
-  //   return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.toLowerCase().includes(filterNom));
-  // });
   
   
   // Filtrer par nom
@@ -256,7 +247,7 @@ export default function Administration2({ setIsLoggedIn }) {
     const enregistrement = { nom, prenom, adresse, telephone, email, motDePasse, selectedDate, selectedJardin, numParcelle, fin_inscription, caution, typePaiement, cautionRendu };
   
     if (statusBtn === 1) {
-      const resp = await createAdherant(enregistrement); // Attendre la création
+      const resp = await createAdherant(enregistrement);
       setSuccessMessage("Adhérent créé avec succès");
     } else if (statusBtn === 2) {
       await modifyAdherant(enregistrement);
@@ -273,11 +264,6 @@ export default function Administration2({ setIsLoggedIn }) {
     setAllUsers(allUsers);
   };
 
-  // Tri des adhérents par ordre alphabétique sur leurs noms
-  // const sortedUsers = useMemo(() => {
-  //   return [...allUsers].sort((a, b) => a.nom.localeCompare(b.nom));
-  // }, [allUsers]);
-  
 
   const filteredAndSortedData = useMemo(() => {
     // Filtrez d'abord les données selon les critères de filtrage
@@ -439,7 +425,7 @@ export default function Administration2({ setIsLoggedIn }) {
 
         <div className="f controlPanel">
           <div className='f'>
-            <label className='label-search'>Recherche par Nom :
+            <label className='label-search'>Recherche :
               <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
             </label>
             <label className="label-jardin f fdc">Tri par Jardin :
@@ -458,6 +444,13 @@ export default function Administration2({ setIsLoggedIn }) {
               <button className='btn3' onClick={() => handleDelete(selectedRow)}>Supprimer</button>
             </div>
           </div>
+        </div>
+        <div className="f fdc message-info">
+          <div className="f affiche-msg">
+            <label htmlFor="message-info">Afficher l'info&nbsp;</label>
+            <input type="checkbox" name="showCheckBox" id="message-info" />
+          </div> 
+          <input className='msg-info' type="text" />
         </div>
     </Shaping>
     <Footer />
