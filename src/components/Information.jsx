@@ -5,26 +5,27 @@ export default function Information() {
     const [fileContent, setFileContent] = useState(null);
 
     useEffect(() => {
-        const fetchFileContent = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch('../datas/Informations.txt');
-                const content = await response.text();
-                if (content.trim() !== "") {
-                    setFileContent(content);
+                const response = await fetch('http://localhost:3513/params', {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                });
+                if (!response.ok) { 
+                    throw new Error(`Erreur HTTP ${response.status}`); 
+                } else {
+                    const data = await response.json();
+                    if (data.affiche_message) setFileContent(data.message);
                 }
             } catch (error) {
-                console.error('Erreur lors du chargement du fichier :', error);
+                console.error("Erreur lors de la récupération des données :", error);
             }
         };
 
-        fetchFileContent();
+        fetchData();
     }, []);
 
-    if (!fileContent) {
-        return null;
-    }
-
     return (
-        <div className="information" dangerouslySetInnerHTML={{ __html: fileContent }} />
+        <div className="information" dangerouslySetInnerHTML={{ __html: fileContent || "" }} />
     );
-};
+}

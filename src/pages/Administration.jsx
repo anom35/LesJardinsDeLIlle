@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
-import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant } from '../components/Reseaux';
+import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant, modifyParams, getParams } from '../components/Reseaux';
 import "../styles/administration.css"
 
 
@@ -51,14 +51,8 @@ export default function Administration2({ setIsLoggedIn }) {
   const navigate = useNavigate();
   
   const [allUsers, setAllUsers] = useState([]);
-  const [countUsers, setCountUsers] = useState(0);
-  const [Error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [btnCreateAdherent, setBtnCreateAdherent] = useState(false);
   const [filterJardin, setFilterJardin] = useState("");
   const [filterNom, setFilterNom] = useState("");
-  const [selectedRow, setSelectedRow] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedModifUser, setSelectedModifUser] = useState(false);
   const [selectedUserForModification, setSelectedUserForModification] = useState(false);
@@ -66,6 +60,8 @@ export default function Administration2({ setIsLoggedIn }) {
   const [titre, setTitre] = useState("Créer un adhérent");
   const [colorTitre, setColorTitre] = useState("orange");
   const [isCreateFiche, setIsCreateFiche] = useState(false);
+  const [affMsg, setAffMsg] = useState(false);
+  const [textMessage, setTextMessage] = useState("");
   
   const [selectedDate, setSelectedDate] = useState(today);
   const [selectedJardin, setSelectedJardin] = useState("Chaperonnerais");
@@ -98,10 +94,7 @@ export default function Administration2({ setIsLoggedIn }) {
   useEffect(() => {
     if (!isCreateFiche) {
       async function fetchData() {
-        const { allUsers, nbreEnregistrements, errorMessage } = await getAllAdherants();
-        setAllUsers(allUsers);
-        setCountUsers(nbreEnregistrements);
-        setErrorMessage(errorMessage);
+        setAllUsers(await getAllAdherants());
         
           if (selectedUserForModification === false && allUsers.length > 0) {
               setSelectedUserForModification(allUsers[0].nom + " " + allUsers[0].prenom);
@@ -128,7 +121,7 @@ export default function Administration2({ setIsLoggedIn }) {
       fetchData();
     }    
     setIsCreateFiche(false);
-  }, [isCreateFiche]);
+  }, [isCreateFiche, selectedUserForModification]);
   
   useEffect(() => {
     if (isCreateFiche) {
@@ -140,6 +133,13 @@ export default function Administration2({ setIsLoggedIn }) {
       });
     }
   }, [isCreateFiche]);
+
+  useEffect(() => {
+    const { check, mess } = getParams();
+    console.log(check, mess);
+    setAffMsg(check);
+    setTextMessage(mess);
+  },[]);
       
   const resetForm = () => {
     setSelectedDate(today);
@@ -246,22 +246,14 @@ export default function Administration2({ setIsLoggedIn }) {
   const handleConfirmClick = async () => {
     const enregistrement = { nom, prenom, adresse, telephone, email, motDePasse, selectedDate, selectedJardin, numParcelle, fin_inscription, caution, typePaiement, cautionRendu };
   
-    if (statusBtn === 1) {
-      const resp = await createAdherant(enregistrement);
-      setSuccessMessage("Adhérent créé avec succès");
-    } else if (statusBtn === 2) {
-      await modifyAdherant(enregistrement);
-      setSuccessMessage("Adhérent modifié avec succès");
-    } else if (statusBtn === 3) {
-      await deleteAdherant(email);
-      setSuccessMessage("Adhérent supprimé avec succès");
-    }
+    if (statusBtn === 1) await createAdherant(enregistrement);
+    else if (statusBtn === 2) await modifyAdherant(enregistrement);
+    else if (statusBtn === 3) await deleteAdherant(email);
     
     closeModal();
 
     // Mettre à jour la liste d'utilisateurs après l'opération
-    const { allUsers, nbreEnregistrements, errorMessage } = await getAllAdherants();
-    setAllUsers(allUsers);
+    setAllUsers(await getAllAdherants());
   };
 
 
@@ -277,6 +269,10 @@ export default function Administration2({ setIsLoggedIn }) {
     return sorted;
   }, [allUsers, filterJardin, filterNom]);
 
+
+  const saveParams = () => {
+    modifyParams(affMsg, textMessage);
+  };
 
   return (
       <>
@@ -441,16 +437,17 @@ export default function Administration2({ setIsLoggedIn }) {
             <div className='f groupe-button'>
               <button className='btn3' onClick={() => handleCreate()}>Créer</button>                    
               <button className='btn3' onClick={() => handleEdit()}>Modifier</button>
-              <button className='btn3' onClick={() => handleDelete(selectedRow)}>Supprimer</button>
+              <button className='btn3' onClick={() => handleDelete()}>Supprimer</button>
             </div>
           </div>
         </div>
         <div className="f fdc message-info">
-          <div className="f affiche-msg">
+          <div className="f aic affiche-msg">
             <label htmlFor="message-info">Afficher l'info&nbsp;</label>
-            <input type="checkbox" name="showCheckBox" id="message-info" />
+            <input type="checkbox" name="showCheckBox" id="message-info" onChange={(e) => setAffMsg(e.target.checked)} />
+            <button className='btn4' onClick={() => saveParams()}>Enregistre</button>
           </div> 
-          <input className='msg-info' type="text" />
+          <input className='msg-info' type="text" placeholder='message' onChange={(e) => setTextMessage(e.target.value)}/>
         </div>
     </Shaping>
     <Footer />

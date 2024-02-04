@@ -185,18 +185,22 @@
 .affiche-msg input,
 .affiche-msg label {
     margin: 0;
-    width: auto;
 }
 .affiche-msg input {
-    width: 20px;
+    width: 30px;
 }
 
-.msg-info {
-    margin: 5px 0;
-}
 
 .shaping {
     background-color: var(--bg-section);
+}
+
+#message-info {
+    font-size: 1rem;
+}
+
+.msg-info {
+    margin-bottom: 2px;
 }
 
 @media (max-width: 710px) {
