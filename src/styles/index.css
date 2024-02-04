@@ -89,7 +89,11 @@ ul, li {
     background-color: cyan;
     color: black;
 }
-
+button:active {
+    transform: scale(0.90); 
+    background-color: darkgrey;
+}
+  
 
 .bg-titre {
     margin: 40px auto;

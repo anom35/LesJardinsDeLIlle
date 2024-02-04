@@ -177,6 +177,7 @@
     margin: 5px 10px;
     padding: 5px 10px;
     max-width: 500px;
+    width: 100%;
     font-size: 14px;
     border: 2px solid var(--bg-header);
     background-color: var(--bg-info);
@@ -203,8 +204,29 @@
     margin-bottom: 2px;
 }
 
+.imprimante {
+    width: 64px;
+}
+.imprimante:hover {
+    cursor: pointer;
+}
+
+.section-info {
+    max-width: 500px;
+}
+
 @media (max-width: 710px) {
     .controlPanel {
         flex-direction: column;
+    }
+}
+
+@media print {
+    table { 
+        border-collapse: collapse; 
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
     }
 }

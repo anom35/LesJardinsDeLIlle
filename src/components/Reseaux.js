@@ -9,7 +9,7 @@ export async function getAllAdherants() {
             }
         });
         if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
-        return await response.json();;
+        return await response.json();
     } catch (error) { console.log(error); }
 };
 
@@ -123,7 +123,6 @@ export async function getParams() {
             throw new Error(`Erreur HTTP ${response.status}`); 
         } 
         const valRet = await response.json();
-        console.log(valRet);
         return (valRet);
     } catch (error) {
         console.error('Erreur lors de la récupération des paramètres:', error);

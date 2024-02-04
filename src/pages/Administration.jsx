@@ -5,6 +5,7 @@ import Header from "../layout/Header"
 import Footer from "../layout/Footer"
 import Shaping from "../layout/Shaping"
 import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant, modifyParams, getParams } from '../components/Reseaux';
+import imprimante from "../assets/images/imprimante.webp"
 import "../styles/administration.css"
 
 
@@ -135,12 +136,14 @@ export default function Administration2({ setIsLoggedIn }) {
   }, [isCreateFiche]);
 
   useEffect(() => {
-    const { check, mess } = getParams();
-    console.log(check, mess);
-    setAffMsg(check);
-    setTextMessage(mess);
-  },[]);
-      
+    async function fetchData() {
+      const params = await getParams();
+      setAffMsg(params.affiche_message === 1);
+      setTextMessage(params.message);
+    }
+    fetchData();
+  }, []);
+
   const resetForm = () => {
     setSelectedDate(today);
     setNom("");
@@ -150,7 +153,7 @@ export default function Administration2({ setIsLoggedIn }) {
     setCaution("");
     setTypePaiement("");
     setNumParcelle("");
-    setFinInscription("");
+    setFinInscription("          ");
     setCautionRendu("");
     setEmail("");
     setMotDePasse("");
@@ -251,21 +254,15 @@ export default function Administration2({ setIsLoggedIn }) {
     else if (statusBtn === 3) await deleteAdherant(email);
     
     closeModal();
-
-    // Mettre à jour la liste d'utilisateurs après l'opération
     setAllUsers(await getAllAdherants());
   };
 
 
   const filteredAndSortedData = useMemo(() => {
-    // Filtrez d'abord les données selon les critères de filtrage
     const filtered = allUsers.filter(user => {
       return (!filterJardin || user.jardin === filterJardin) && (!filterNom || user.nom.toLowerCase().includes(filterNom.toLowerCase()));
     });
-
-    // Triez ensuite les données filtrées par nom
     const sorted = filtered.sort((a, b) => a.nom.localeCompare(b.nom));
-
     return sorted;
   }, [allUsers, filterJardin, filterNom]);
 
@@ -274,12 +271,57 @@ export default function Administration2({ setIsLoggedIn }) {
     modifyParams(affMsg, textMessage);
   };
 
+
+  function printTable() {
+    var divToPrint = document.getElementById('Table');
+    var newWin = window.open('', 'Print-Window');
+    newWin.document.open();
+
+    const printStyles = `
+      <style>
+        @page {
+          size: landscape;
+          margin: 10mm;
+        }
+        body {
+          font-family: Arial, sans-serif;
+          font-size: 10pt;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid black;
+          padding: 5px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+        .password-column {
+          max-width: 100px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      </style>
+    `;
+
+    newWin.document.write('<html><head>' + printStyles + '</head><body onload="window.print()">' + divToPrint.outerHTML + '</body></html>');
+    newWin.document.close();
+    setTimeout(function() { newWin.close(); }, 10);
+}
+
+  
+  
+
   return (
       <>
           <Shaping>
               <Header />
               <TableContainer>
-                  <Table>
+                  <Table id='Table'>
                       <thead className="sticky-header">
                           <tr>
                               <th>Date d'inscription</th>
@@ -312,7 +354,7 @@ export default function Administration2({ setIsLoggedIn }) {
                                   <td>{user.type_paiement}</td>
                                   <td>{user.date_fin}</td>
                                   <td>{user.caution_rendu}</td>
-                                  <td>{user.password}</td>
+                                  <td className="password-column">{user.password}</td>
                               </tr>
                           ))}
                       </tbody>
@@ -400,7 +442,14 @@ export default function Administration2({ setIsLoggedIn }) {
                             <input type="text" name='type_paiement' placeholder="Type de paiement" value={(typePaiement)} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
                             <label form='date_fin'>Date de fin adhérent</label>
-                            <input type="text" name='date_fin' value={reformatDate(fin_inscription)} placeholder='' onChange={(e) => setFinInscription(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                            <input 
+                              type="text" 
+                              name='date_fin' 
+                              // value={reformatDate(fin_inscription)} 
+                              value={fin_inscription}
+                              onChange={(e) => setFinInscription(e.target.value)} 
+                              disabled={statusBtn === 3 ? true : false}
+                            />
 
                             <label form='caution-rendu'>Caution rendu</label>
                             <input type="text" name='caution-rendu' placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} disabled={statusBtn === 3 ? true : false} />
@@ -435,19 +484,50 @@ export default function Administration2({ setIsLoggedIn }) {
           <div className="f fdc container-button">
             <p className='fc'>Adhérents</p>
             <div className='f groupe-button'>
-              <button className='btn3' onClick={() => handleCreate()}>Créer</button>                    
-              <button className='btn3' onClick={() => handleEdit()}>Modifier</button>
-              <button className='btn3' onClick={() => handleDelete()}>Supprimer</button>
+              <button 
+                className='btn3' 
+                onClick={() => handleCreate()}
+                alt="Créer un nouveau adhérent"
+                title="Créer un nouveau adhérent"
+              >Créer</button>                    
+              <button 
+                className='btn3' 
+                onClick={() => handleEdit()}
+                alt="Modifie une fiche adhérent"
+                title="Modifie une fiche adhérent"
+              >Modifier</button>
+              <button 
+                className='btn3' 
+                onClick={() => handleDelete()}
+                alt="Supprime une fiche adhérent"
+                title="Supprimer une fiche adhérent"
+              >Supprimer</button>
             </div>
           </div>
         </div>
-        <div className="f fdc message-info">
-          <div className="f aic affiche-msg">
-            <label htmlFor="message-info">Afficher l'info&nbsp;</label>
-            <input type="checkbox" name="showCheckBox" id="message-info" onChange={(e) => setAffMsg(e.target.checked)} />
-            <button className='btn4' onClick={() => saveParams()}>Enregistre</button>
-          </div> 
-          <input className='msg-info' type="text" placeholder='message' onChange={(e) => setTextMessage(e.target.value)}/>
+        <div className='f section-info'>
+          <div className="f fdc message-info">
+            <div className="f aic affiche-msg">
+              <label htmlFor="message-info">Afficher&nbsp;</label>
+              <input type="checkbox" name="showCheckBox" id="message-info" checked={affMsg} onChange={(e) => setAffMsg(e.target.checked)} />
+              <button 
+                className='btn4' 
+                onClick={() => saveParams()}
+                alt="enregistre les données sur message d'information qui s'affiche sur la page principale"
+                title='Enregistre les modifications'
+              >Enregistre</button>
+            </div> 
+            <input className='msg-info' type="text" placeholder='message' value={textMessage} onChange={(e) => setTextMessage(e.target.value)} />
+          </div>
+          <div className='f aic'>
+            <img 
+              src={imprimante} 
+              onClick={printTable}
+              alt="imprimante, imprime la liste des adhérents" 
+              className='imprimante'
+              title='Imprime la liste des adhérents'
+            />
+          </div>
         </div>
     </Shaping>
     <Footer />

@@ -3,6 +3,7 @@ import "../styles/information.css";
 
 export default function Information() {
     const [fileContent, setFileContent] = useState(null);
+    const [checked, setChecked] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -15,7 +16,8 @@ export default function Information() {
                     throw new Error(`Erreur HTTP ${response.status}`); 
                 } else {
                     const data = await response.json();
-                    if (data.affiche_message) setFileContent(data.message);
+                    setChecked(data.affiche_message);
+                    setFileContent(data.message);
                 }
             } catch (error) {
                 console.error("Erreur lors de la récupération des données :", error);
@@ -25,7 +27,6 @@ export default function Information() {
         fetchData();
     }, []);
 
-    return (
-        <div className="information" dangerouslySetInnerHTML={{ __html: fileContent || "" }} />
-    );
+    if (!checked) return null;
+    return (<div className="information" dangerouslySetInnerHTML={{ __html: fileContent }} />);
 }
