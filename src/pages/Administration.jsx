@@ -11,7 +11,7 @@ import "../styles/administration.css"
 
 const TableContainer = styled.div`
   width: 100%;
-  height: calc(100vh - 450px);
+  height: calc(100vh - 500px);
   overflow-x: auto;
   overflow-y: auto;
 `;
@@ -316,52 +316,53 @@ export default function Administration({ setIsLoggedIn }) {
   
 
   return (
-      <>
-            <Header />
-            <TableContainer>
-                <Table id='Table'>
-                    <thead className="sticky-header">
-                        <tr>
-                            <th>Date d'inscription</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Adresse</th>
-                            <th>Téléphone</th>
-                            <th>Email</th>
-                            <th>Jardin</th>
-                            <th>Parcelle</th>
-                            <th>Caution</th>
-                            <th>Type de paiement</th>
-                            <th>Date de fin</th>
-                            <th>Caution rendu</th>
-                            <th>Mot de passe</th>
+    <div className="f fdc admin-container">
+
+      <Header />
+        <TableContainer>
+            <Table id='Table'>
+                <thead className="sticky-header">
+                    <tr>
+                        <th>Date d'inscription</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse</th>
+                        <th>Téléphone</th>
+                        <th>Email</th>
+                        <th>Jardin</th>
+                        <th>Parcelle</th>
+                        <th>Caution</th>
+                        <th>Type de paiement</th>
+                        <th>Date de fin</th>
+                        <th>Caution rendu</th>
+                        <th>Mot de passe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredAndSortedData.map((user, index) => (
+                            <tr key={index}>
+                            <td>{user.date_inscription}</td>
+                            <td>{user.nom}</td>
+                            <td>{user.prenom}</td>
+                            <td>{user.adresse}</td>
+                            <td>{user.telephone}</td>
+                            <td>{user.email}</td>
+                            <td>{user.jardin}</td>
+                            <td>{user.parcelle}</td>
+                            <td>{user.caution}</td>
+                            <td>{user.type_paiement}</td>
+                            <td>{user.date_fin}</td>
+                            <td>{user.caution_rendu}</td>
+                            <td className="password-column">{user.password}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {filteredAndSortedData.map((user, index) => (
-                                <tr key={index}>
-                                <td>{user.date_inscription}</td>
-                                <td>{user.nom}</td>
-                                <td>{user.prenom}</td>
-                                <td>{user.adresse}</td>
-                                <td>{user.telephone}</td>
-                                <td>{user.email}</td>
-                                <td>{user.jardin}</td>
-                                <td>{user.parcelle}</td>
-                                <td>{user.caution}</td>
-                                <td>{user.type_paiement}</td>
-                                <td>{user.date_fin}</td>
-                                <td>{user.caution_rendu}</td>
-                                <td className="password-column">{user.password}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </TableContainer>
+                    ))}
+                </tbody>
+            </Table>
+        </TableContainer>
 
 
-            {/* Affiche la fenêtre modal de la fiche adhérent */}
-            {showModal && (
+        {/* Affiche la fenêtre modal de la fiche adhérent */}
+        {showModal && (
               <div className="modal2">
                 <div className="modal-content2">
                   <span className="close-button2" onClick={closeModal}>&times;</span>
@@ -443,7 +444,6 @@ export default function Administration({ setIsLoggedIn }) {
                           <input 
                             type="text" 
                             name='date_fin' 
-                            // value={reformatDate(fin_inscription)} 
                             value={fin_inscription}
                             onChange={(e) => setFinInscription(e.target.value)} 
                             disabled={statusBtn === 3 ? true : false}
@@ -527,7 +527,8 @@ export default function Administration({ setIsLoggedIn }) {
           />
         </div>
       </div>
-    <Footer />
-  </>
+      <div className='content-wrap'></div>
+      <Footer />
+    </div>
   )
 }

@@ -80,9 +80,6 @@
 }
 
 
-
-
-
 .liste-adherents h4 {
     margin-top: 20px;
     font-size: 0.9rem;
@@ -192,10 +189,6 @@
 }
 
 
-/* html {
-    background-color: var(--bg-section);
-} */
-
 #message-info {
     font-size: 1rem;
 }
@@ -215,6 +208,10 @@
     max-width: 500px;
 }
 
+.admin-container {
+    min-height: 100vh;
+    margin: 0;
+}
 
 @media (max-width: 710px) {
     .controlPanel {

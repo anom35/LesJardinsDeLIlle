@@ -36,6 +36,11 @@ body {
     font-family: 'Poppins', sans-serif;
     overflow-y: scroll;
     -ms-overflow-style: none;
+    height: 100%;
+}
+
+.content-wrap {
+    flex: 1;
 }
 
 body::-webkit-scrollbar {
@@ -129,4 +134,8 @@ button:active {
 }
 .aic {
     align-items: center;
+}
+
+.vide {
+    height: 100%;
 }
