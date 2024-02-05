@@ -192,9 +192,9 @@
 }
 
 
-.shaping {
+/* html {
     background-color: var(--bg-section);
-}
+} */
 
 #message-info {
     font-size: 1rem;
@@ -214,6 +214,7 @@
 .section-info {
     max-width: 500px;
 }
+
 
 @media (max-width: 710px) {
     .controlPanel {

@@ -28,5 +28,5 @@ export default function Information() {
     }, []);
 
     if (!checked) return null;
-    return (<div className="information" dangerouslySetInnerHTML={{ __html: fileContent }} />);
+    return (<div className="f fc information" dangerouslySetInnerHTML={{ __html: fileContent }} />);
 }

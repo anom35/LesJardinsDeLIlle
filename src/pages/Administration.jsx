@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../layout/Header"
 import Footer from "../layout/Footer"
-import Shaping from "../layout/Shaping"
 import { getAllAdherants, createAdherant, modifyAdherant, deleteAdherant, modifyParams, getParams } from '../components/Reseaux';
 import imprimante from "../assets/images/imprimante.webp"
 import "../styles/administration.css"
@@ -46,7 +45,7 @@ const Table = styled.table`
   }
 `;
 
-export default function Administration2({ setIsLoggedIn }) {
+export default function Administration({ setIsLoggedIn }) {
 
   const today = new Date().toLocaleDateString('fr-FR');
   const navigate = useNavigate();
@@ -205,7 +204,7 @@ export default function Administration2({ setIsLoggedIn }) {
   };
   
 
-// Lorsque l'utilisateur clique sur un choix de menu, ca supprime le Token, met l'identification à false, et redirige vers la page d'accueil
+  // Lorsque l'utilisateur clique sur un choix de menu, ca supprime le Token, met l'identification à false, et redirige vers la page d'accueil
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     setIsLoggedIn(false);
@@ -318,218 +317,216 @@ export default function Administration2({ setIsLoggedIn }) {
 
   return (
       <>
-          <Shaping>
-              <Header />
-              <TableContainer>
-                  <Table id='Table'>
-                      <thead className="sticky-header">
-                          <tr>
-                              <th>Date d'inscription</th>
-                              <th>Nom</th>
-                              <th>Prénom</th>
-                              <th>Adresse</th>
-                              <th>Téléphone</th>
-                              <th>Email</th>
-                              <th>Jardin</th>
-                              <th>Parcelle</th>
-                              <th>Caution</th>
-                              <th>Type de paiement</th>
-                              <th>Date de fin</th>
-                              <th>Caution rendu</th>
-                              <th>Mot de passe</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          {filteredAndSortedData.map((user, index) => (
-                                  <tr key={index}>
-                                  <td>{user.date_inscription}</td>
-                                  <td>{user.nom}</td>
-                                  <td>{user.prenom}</td>
-                                  <td>{user.adresse}</td>
-                                  <td>{user.telephone}</td>
-                                  <td>{user.email}</td>
-                                  <td>{user.jardin}</td>
-                                  <td>{user.parcelle}</td>
-                                  <td>{user.caution}</td>
-                                  <td>{user.type_paiement}</td>
-                                  <td>{user.date_fin}</td>
-                                  <td>{user.caution_rendu}</td>
-                                  <td className="password-column">{user.password}</td>
-                              </tr>
-                          ))}
-                      </tbody>
-                  </Table>
-              </TableContainer>
+            <Header />
+            <TableContainer>
+                <Table id='Table'>
+                    <thead className="sticky-header">
+                        <tr>
+                            <th>Date d'inscription</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Adresse</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                            <th>Jardin</th>
+                            <th>Parcelle</th>
+                            <th>Caution</th>
+                            <th>Type de paiement</th>
+                            <th>Date de fin</th>
+                            <th>Caution rendu</th>
+                            <th>Mot de passe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredAndSortedData.map((user, index) => (
+                                <tr key={index}>
+                                <td>{user.date_inscription}</td>
+                                <td>{user.nom}</td>
+                                <td>{user.prenom}</td>
+                                <td>{user.adresse}</td>
+                                <td>{user.telephone}</td>
+                                <td>{user.email}</td>
+                                <td>{user.jardin}</td>
+                                <td>{user.parcelle}</td>
+                                <td>{user.caution}</td>
+                                <td>{user.type_paiement}</td>
+                                <td>{user.date_fin}</td>
+                                <td>{user.caution_rendu}</td>
+                                <td className="password-column">{user.password}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </TableContainer>
 
 
-              {/* Affiche la fenêtre modal de la fiche adhérent */}
-              {showModal && (
-                <div className="modal2">
-                  <div className="modal-content2">
-                    <span className="close-button2" onClick={closeModal}>&times;</span>
-                    <div className="container-section">               
-                      <h3 className='fc' style={{color: colorTitre}}>{titre}</h3>
-                      <form className="create-user" action="#">
-                        <div className="f form-container">
+            {/* Affiche la fenêtre modal de la fiche adhérent */}
+            {showModal && (
+              <div className="modal2">
+                <div className="modal-content2">
+                  <span className="close-button2" onClick={closeModal}>&times;</span>
+                  <div className="container-section">               
+                    <h3 className='fc' style={{color: colorTitre}}>{titre}</h3>
+                    <form className="create-user" action="#">
+                      <div className="f form-container">
 
-                          <div className="form1">
-                            {selectedModifUser && (
-                              <div>
-                                <label>Adhérent :</label>
-                                  <select value={selectedUserForModification} onChange={(e) => {
-                                    setSelectedUserForModification(e.target.value);
-                                    handleAdherentChange(e.target.value);
-                                  }}>
-                                  {allUsers.map((user, index) => (
-                                    <option key={index} value={user.nom + " " + user.prenom}>{user.nom + " " + user.prenom}</option>
-                                  ))}
-                                </select>
-                              </div>
-                            )}
+                        <div className="form1">
+                          {selectedModifUser && (
+                            <div>
+                              <label>Adhérent :</label>
+                                <select value={selectedUserForModification} onChange={(e) => {
+                                  setSelectedUserForModification(e.target.value);
+                                  handleAdherentChange(e.target.value);
+                                }}>
+                                {allUsers.map((user, index) => (
+                                  <option key={index} value={user.nom + " " + user.prenom}>{user.nom + " " + user.prenom}</option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
 
-                            <label form='date'>Date d'inscription</label>
-                            <input type="text" name='date' value={reformatDate(selectedDate)} onChange={(e) => setSelectedDate(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                          <label form='date'>Date d'inscription</label>
+                          <input type="text" name='date' value={reformatDate(selectedDate)} onChange={(e) => setSelectedDate(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
-                            <label form='nom'>Nom</label>
-                            <input type="text" name='nom' placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                          <label form='nom'>Nom</label>
+                          <input type="text" name='nom' placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
-                            <label form='prenom'>Prénom</label>
-                            <input type="text" name='prenom' placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} disabled={statusBtn === 3 ? true : false} />
+                          <label form='prenom'>Prénom</label>
+                          <input type="text" name='prenom' placeholder="Prénom" value={prenom} onChange={(e) => setPrenom(e.target.value)} disabled={statusBtn === 3 ? true : false} />
 
-                            <label form='adresse'>Adresse</label>
-                            <input type="text" name='adresse' placeholder="Adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                          <label form='adresse'>Adresse</label>
+                          <input type="text" name='adresse' placeholder="Adresse" value={adresse} onChange={(e) => setAdresse(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
-                            <label form='telephone'>Téléphone</label>
-                            <input type="text" name='telephone' placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
+                          <label form='telephone'>Téléphone</label>
+                          <input type="text" name='telephone' placeholder="Téléphone" value={telephone} onChange={(e) => setTelephone(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
-                            <label form='email'>Email</label>
-                            <input 
-                              name='email'
-                              key={keyMail}
-                              type="text"
-                              placeholder="Email"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              disabled={statusBtn === 3? true : false}
-                            />
-                          </div>
-
-                          <div className="form2">
-                            <label form='password'>Mot de passe</label>
-                            <input 
-                              name='password'
-                              key={keyPassword}
-                              type="text" 
-                              placeholder="<PASSWORD>"  
-                              value={motDePasse} 
-                              onChange={(e) => setMotDePasse(e.target.value)}
-                              disabled={statusBtn === 3 ? true : false}
-                            />
-
-                            <label form='choix_jardin' className='choix-jardin'>Jardin</label>
-                            <select value={selectedJardin} name='choix_jardin' onChange={(e) => setSelectedJardin(e.target.value)} disabled={statusBtn === 3 ? true : false}>
-                              <option value="Chaperonnerais">Chaperonnerais</option>
-                              <option value="Piconnerie">Piconnerie</option>
-                            </select>
-
-                            <label form='parcelle'>Parcelle(s)</label>
-                            <input type="text" name='parcelle' placeholder="18a" value={numParcelle} onChange={(e) => setNumParcelle(e.target.value)} disabled={statusBtn === 3 ? true : false} />
-
-                            <label form='caution'>Caution</label>
-                            <input type="text" name='caution' placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} disabled={statusBtn === 3 ? true : false} />
-
-                            <label form='type_paiement'>Type de paiement</label>
-                            <input type="text" name='type_paiement' placeholder="Type de paiement" value={(typePaiement)} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
-
-                            <label form='date_fin'>Date de fin adhérent</label>
-                            <input 
-                              type="text" 
-                              name='date_fin' 
-                              // value={reformatDate(fin_inscription)} 
-                              value={fin_inscription}
-                              onChange={(e) => setFinInscription(e.target.value)} 
-                              disabled={statusBtn === 3 ? true : false}
-                            />
-
-                            <label form='caution-rendu'>Caution rendu</label>
-                            <input type="text" name='caution-rendu' placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} disabled={statusBtn === 3 ? true : false} />
-                          </div>
+                          <label form='email'>Email</label>
+                          <input 
+                            name='email'
+                            key={keyMail}
+                            type="text"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={statusBtn === 3? true : false}
+                          />
                         </div>
 
-                        <button type="button" onClick={handleConfirmClick}>Confirmer</button>
+                        <div className="form2">
+                          <label form='password'>Mot de passe</label>
+                          <input 
+                            name='password'
+                            key={keyPassword}
+                            type="text" 
+                            placeholder="<PASSWORD>"  
+                            value={motDePasse} 
+                            onChange={(e) => setMotDePasse(e.target.value)}
+                            disabled={statusBtn === 3 ? true : false}
+                          />
 
-                      </form>
+                          <label form='choix_jardin' className='choix-jardin'>Jardin</label>
+                          <select value={selectedJardin} name='choix_jardin' onChange={(e) => setSelectedJardin(e.target.value)} disabled={statusBtn === 3 ? true : false}>
+                            <option value="Chaperonnerais">Chaperonnerais</option>
+                            <option value="Piconnerie">Piconnerie</option>
+                          </select>
 
-                  </div>
-              </div>
-          </div>
-        )}
-        {/* End modal */}
+                          <label form='parcelle'>Parcelle(s)</label>
+                          <input type="text" name='parcelle' placeholder="18a" value={numParcelle} onChange={(e) => setNumParcelle(e.target.value)} disabled={statusBtn === 3 ? true : false} />
 
+                          <label form='caution'>Caution</label>
+                          <input type="text" name='caution' placeholder="50€" value={caution} onChange={(e) => setCaution(e.target.value)} disabled={statusBtn === 3 ? true : false} />
 
+                          <label form='type_paiement'>Type de paiement</label>
+                          <input type="text" name='type_paiement' placeholder="Type de paiement" value={(typePaiement)} onChange={(e) => setTypePaiement(e.target.value)} disabled={statusBtn === 3 ? true : false}/>
 
-        <div className="f controlPanel">
-          <div className='f'>
-            <label className='label-search'>Recherche :
-              <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
-            </label>
-            <label className="label-jardin f fdc">Tri par Jardin :
-              <select className='choix-jardin2' value={filterJardin} onChange={handleJardinChange}>
-                <option value="">Tous les Jardins</option>
-                <option value="Chaperonnerais">Chaperonnerais</option>
-                <option value="Piconnerie">Piconnerie</option>
-              </select>
-            </label>
-          </div>
-          <div className="f fdc container-button">
-            <p className='fc'>Adhérents</p>
-            <div className='f groupe-button'>
-              <button 
-                className='btn3' 
-                onClick={() => handleCreate()}
-                alt="Créer un nouveau adhérent"
-                title="Créer un nouveau adhérent"
-              >Créer</button>                    
-              <button 
-                className='btn3' 
-                onClick={() => handleEdit()}
-                alt="Modifie une fiche adhérent"
-                title="Modifie une fiche adhérent"
-              >Modifier</button>
-              <button 
-                className='btn3' 
-                onClick={() => handleDelete()}
-                alt="Supprime une fiche adhérent"
-                title="Supprimer une fiche adhérent"
-              >Supprimer</button>
+                          <label form='date_fin'>Date de fin adhérent</label>
+                          <input 
+                            type="text" 
+                            name='date_fin' 
+                            // value={reformatDate(fin_inscription)} 
+                            value={fin_inscription}
+                            onChange={(e) => setFinInscription(e.target.value)} 
+                            disabled={statusBtn === 3 ? true : false}
+                          />
+
+                          <label form='caution-rendu'>Caution rendu</label>
+                          <input type="text" name='caution-rendu' placeholder="50€" value={cautionRendu} onChange={(e) => setCautionRendu(e.target.value)} disabled={statusBtn === 3 ? true : false} />
+                        </div>
+                      </div>
+
+                      <button type="button" onClick={handleConfirmClick}>Confirmer</button>
+
+                    </form>
+
+                </div>
             </div>
+        </div>
+      )}
+      {/* End modal */}
+
+
+
+      <div className="f controlPanel">
+        <div className='f'>
+          <label className='label-search'>Recherche :
+            <input className='search-filter' type="text" placeholder="Nom" onChange={(e) => filterByName(e.target.value)} />
+          </label>
+          <label className="label-jardin f fdc">Tri par Jardin :
+            <select className='choix-jardin2' value={filterJardin} onChange={handleJardinChange}>
+              <option value="">Tous les Jardins</option>
+              <option value="Chaperonnerais">Chaperonnerais</option>
+              <option value="Piconnerie">Piconnerie</option>
+            </select>
+          </label>
+        </div>
+        <div className="f fdc container-button">
+          <p className='fc'>Adhérents</p>
+          <div className='f groupe-button'>
+            <button 
+              className='btn3' 
+              onClick={() => handleCreate()}
+              alt="Créer un nouveau adhérent"
+              title="Créer un nouveau adhérent"
+            >Créer</button>                    
+            <button 
+              className='btn3' 
+              onClick={() => handleEdit()}
+              alt="Modifie une fiche adhérent"
+              title="Modifie une fiche adhérent"
+            >Modifier</button>
+            <button 
+              className='btn3' 
+              onClick={() => handleDelete()}
+              alt="Supprime une fiche adhérent"
+              title="Supprimer une fiche adhérent"
+            >Supprimer</button>
           </div>
         </div>
-        <div className='f section-info'>
-          <div className="f fdc message-info">
-            <div className="f aic affiche-msg">
-              <label htmlFor="message-info">Afficher&nbsp;</label>
-              <input type="checkbox" name="showCheckBox" id="message-info" checked={affMsg} onChange={(e) => setAffMsg(e.target.checked)} />
-              <button 
-                className='btn4' 
-                onClick={() => saveParams()}
-                alt="enregistre les données sur message d'information qui s'affiche sur la page principale"
-                title='Enregistre les modifications'
-              >Enregistre</button>
-            </div> 
-            <input className='msg-info' type="text" placeholder='message' value={textMessage} onChange={(e) => setTextMessage(e.target.value)} />
-          </div>
-          <div className='f aic'>
-            <img 
-              src={imprimante} 
-              onClick={printTable}
-              alt="imprimante, imprime la liste des adhérents" 
-              className='imprimante'
-              title='Imprime la liste des adhérents'
-            />
-          </div>
+      </div>
+      <div className='f section-info'>
+        <div className="f fdc message-info">
+          <div className="f aic affiche-msg">
+            <label htmlFor="message-info">Afficher&nbsp;</label>
+            <input type="checkbox" name="showCheckBox" id="message-info" checked={affMsg} onChange={(e) => setAffMsg(e.target.checked)} />
+            <button 
+              className='btn4' 
+              onClick={() => saveParams()}
+              alt="enregistre les données sur message d'information qui s'affiche sur la page principale"
+              title='Enregistre les modifications'
+            >Enregistre</button>
+          </div> 
+          <input className='msg-info' type="text" placeholder='message' value={textMessage} onChange={(e) => setTextMessage(e.target.value)} />
         </div>
-    </Shaping>
+        <div className='f aic'>
+          <img 
+            src={imprimante} 
+            onClick={printTable}
+            alt="imprimante, imprime la liste des adhérents" 
+            className='imprimante'
+            title='Imprime la liste des adhérents'
+          />
+        </div>
+      </div>
     <Footer />
   </>
   )
