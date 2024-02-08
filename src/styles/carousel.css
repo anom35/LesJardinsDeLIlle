@@ -1,7 +1,7 @@
 .carousel {
     display: flex;
     justify-content: center;
-    margin: 0 5px;
+    margin: 30px 5px 10px 5px;
 }
 
 .carousel img {
@@ -10,5 +10,5 @@
     max-width: 1500px;
     object-fit: cover;
     box-shadow: 0 0 10px grey;
-    border-radius: 5px;
+    border-radius: 10px;
 }
