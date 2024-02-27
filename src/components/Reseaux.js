@@ -1,7 +1,7 @@
 
 export async function getAllAdherants() {
     try {
-        const response = await fetch('https://localhost:3513/get-all-users', {
+        const response = await fetch('https://82.66.97.94:3513/get-all-users', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export async function getAllAdherants() {
 
 export async function createAdherant(enregistrement) {
     try {
-        const response = await fetch('https://localhost:3513/signup', {
+        const response = await fetch('https://82.66.97.94:3513/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export async function createAdherant(enregistrement) {
 
 export async function modifyAdherant(enregistrement) {
     try {
-        const response = await fetch(`https://localhost:3513/update-user/${enregistrement.email}`, {
+        const response = await fetch(`https://82.66.97.94:3513/update-user/${enregistrement.email}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export async function modifyAdherant(enregistrement) {
 
 export async function deleteAdherant(email) {
     try {
-      const response = await fetch(`https://localhost:3513/delete-user/${email}`, {
+      const response = await fetch(`https://82.66.97.94:3513/delete-user/${email}`, {
         method: 'DELETE',
         headers: {'Authorization': 'Bearer ' + localStorage.getItem('authToken')}
       });
@@ -97,7 +97,7 @@ export async function deleteAdherant(email) {
 
   export async function modifyParams(affMsg, texteMsg) {
     try {
-        const response = await fetch("https://localhost:3513/update-params", {
+        const response = await fetch("https://82.66.97.94:3513/update-params", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export async function deleteAdherant(email) {
 
 export async function getParams() {
     try {
-        const response = await fetch("https://localhost:3513/params", {
+        const response = await fetch("https://82.66.97.94:3513/params", {
             method: 'GET',
             headers: {'Content-Type': 'application/json'}
         });
