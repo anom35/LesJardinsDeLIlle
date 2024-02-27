@@ -10,7 +10,7 @@ export default function AuthModal({ show, isLoggedIn, setIsLoggedIn }) {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:3513/login', {
+            const response = await fetch('https://localhost:3513/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ email: email2, password: password2 })

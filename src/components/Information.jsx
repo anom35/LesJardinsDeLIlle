@@ -8,7 +8,7 @@ export default function Information() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3513/params', {
+                const response = await fetch('https://localhost:3513/params', {
                     method: 'GET',
                     headers: {'Content-Type': 'application/json'}
                 });

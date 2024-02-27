@@ -7,8 +7,8 @@ import './styles/index.css';
 const root = document.getElementById('root');
 
 ReactDOM.createRoot(root).render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <Routes />
-    </React.StrictMode>
+    // </React.StrictMode>
 );
 
